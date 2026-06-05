@@ -4506,6 +4506,16 @@
               </div>
             </div>
 
+            <!-- Apariencia -->
+            <div class="cfg-section">
+              <h3>Apariencia</h3>
+              <div class="cfg-notif-row">
+                <span id="cfg-theme-status" class="cfg-notif-status">Modo oscuro</span>
+                <button class="btn-outline btn-cfg" id="cfg-theme-btn">☀ Modo Claro</button>
+              </div>
+              <p class="cfg-desc">Alterna entre el modo oscuro y el modo claro de la interfaz.</p>
+            </div>
+
             <!-- Notificaciones -->
             <div class="cfg-section">
               <h3>Notificaciones</h3>
@@ -5626,6 +5636,10 @@
         localStorage.setItem(THEME_KEY, theme);
         const btn = document.getElementById('btn-theme-toggle');
         if (btn) btn.textContent = theme === 'light' ? '🌙 Oscuro' : '☀ Claro';
+        const cfgBtn = document.getElementById('cfg-theme-btn');
+        const cfgStatus = document.getElementById('cfg-theme-status');
+        if (cfgBtn) cfgBtn.textContent = theme === 'light' ? '🌙 Modo Oscuro' : '☀ Modo Claro';
+        if (cfgStatus) cfgStatus.textContent = theme === 'light' ? 'Modo claro activo' : 'Modo oscuro activo';
         if (expensesChartInstance) {
           expensesChartInstance.destroy();
           expensesChartInstance = null;
@@ -5642,9 +5656,13 @@
       }
 
       function initThemeBtn() {
+        const isLight = _isLight();
         const btn = document.getElementById('btn-theme-toggle');
-        if (!btn) return;
-        btn.textContent = _isLight() ? '🌙 Oscuro' : '☀ Claro';
+        if (btn) btn.textContent = isLight ? '🌙 Oscuro' : '☀ Claro';
+        const cfgBtn = document.getElementById('cfg-theme-btn');
+        const cfgStatus = document.getElementById('cfg-theme-status');
+        if (cfgBtn) cfgBtn.textContent = isLight ? '🌙 Modo Oscuro' : '☀ Modo Claro';
+        if (cfgStatus) cfgStatus.textContent = isLight ? 'Modo claro activo' : 'Modo oscuro activo';
       }
 
       function toTitleCase(str) {
@@ -11174,6 +11192,7 @@
         // ── Tema ─────────────────────────────────────────────────────────
         initThemeBtn();
         document.getElementById('btn-theme-toggle').addEventListener('click', toggleTheme);
+        document.getElementById('cfg-theme-btn').addEventListener('click', toggleTheme);
 
         // ── Exportar CSV ────────────────────────────────────────────────
         document
