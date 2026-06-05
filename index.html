@@ -9319,8 +9319,9 @@
         distPopoverItemId = itemId;
         distPopoverPersonIndex = personIndex;
         const rect = triggerEl.getBoundingClientRect();
-        pop.style.setProperty('top', `${rect.bottom + window.scrollY + 4}px`);
-        pop.style.setProperty('left', `${rect.left + window.scrollX}px`);
+        const popoverLeft = Math.min(rect.left, window.innerWidth - 196);
+        pop.style.setProperty('top', `${rect.bottom + 4}px`);
+        pop.style.setProperty('left', `${Math.max(4, popoverLeft)}px`);
         pop.classList.remove('hidden');
         triggerEl.classList.add('active');
       }
