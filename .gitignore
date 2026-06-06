@@ -1,0 +1,22 @@
+// Archivo: .gitignore
+// ACCI�N: REEMPLAZAR
+
+# Archivos del sistema operativo
+Thumbs.db
+.DS_Store
+
+# Archivos de registro (Logs)
+*.log
+
+# Carpetas de dependencias y compilaci�n
+node_modules/
+dist/
+build/
+
+# Archivos con secretos y configuraciones locales (�MUY IMPORTANTE!)
+config.js
+.env.wittfinances-282f1
+
+# Otros archivos que has decidido ignorar (si es intencional, est� bien)
+link.txt
+Imagenes/Imagenes.rar
