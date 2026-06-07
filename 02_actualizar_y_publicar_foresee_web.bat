@@ -27,10 +27,6 @@ if not exist ".git" (
 )
 
 echo.
-echo === Tomando ultimos cambios del remoto (por si editaste en GitHub) ===
-git pull --rebase origin main
-
-echo.
 echo === Preparando cambios ===
 git add -A
 
@@ -42,10 +38,14 @@ if errorlevel 1 (
 )
 
 echo.
-echo === Subiendo a GitHub ===
-git push -u origin main
+echo === Subiendo a GitHub (tu version local siempre tiene prioridad) ===
+git push --force-with-lease origin main
 if errorlevel 1 (
-  echo [ERROR] No se pudo hacer push. Verifica credenciales o conflictos.
+  echo   Reintentando con force...
+  git push --force origin main
+)
+if errorlevel 1 (
+  echo [ERROR] No se pudo hacer push. Verifica tu conexion o credenciales.
   pause
   exit /b 1
 )
