@@ -1664,21 +1664,15 @@
         #cat-modal .modal-box {
           height: auto;
           max-height: 90vh;
-          overflow: hidden;
-        }
-        #cat-modal .modal-header {
-          flex-shrink: 0;
         }
         #cat-modal .modal-body {
-          flex: 1 1 auto;
-          min-height: 0;
-          overflow-y: auto;
           padding: var(--space-sm);
+          flex: none;
         }
-        #cat-modal .cat-grid {
+        .cat-grid {
           grid-template-columns: repeat(3, 1fr);
-          max-height: none;
-          overflow-y: visible;
+          max-height: 75vh;
+          overflow-y: auto;
         }
 
         .icon-grid {
@@ -5616,7 +5610,7 @@
         <button id="btn-terms">Términos</button>
         <button id="btn-cookies">Cookies</button>
       </nav>
-      <p id="app-version">V FSA 0018</p>
+      <p id="app-version">V FSA 0016</p>
     </footer>
 
     <script type="module">
@@ -9779,7 +9773,11 @@
 
           // Categoría
           const tdCat = tr.insertCell();
-          tdCat.appendChild(buildCatDisplay(p.category || '', p.transferLeg ? 'transfer' : p.type));
+          if (p.category) {
+            tdCat.appendChild(buildCatDisplay(p.category));
+          } else {
+            tdCat.textContent = '—';
+          }
 
           // Banco (desktop) / ícono info (mobile)
           const tdBank = tr.insertCell();

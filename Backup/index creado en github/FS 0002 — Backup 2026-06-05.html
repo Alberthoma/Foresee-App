@@ -496,6 +496,7 @@
         left: 0;
         right: 0;
         background-color: transparent;
+        border-bottom: 1px solid var(--color-border);
         z-index: 99;
         height: var(--tab-bar-h);
         display: flex;
@@ -549,14 +550,12 @@
         color: var(--color-accent);
       }
       .tab-btn--active {
-        background: color-mix(in srgb, var(--color-accent) 28%, var(--color-surface));
-        backdrop-filter: blur(8px);
-        -webkit-backdrop-filter: blur(8px);
+        background-color: rgba(79, 143, 255, 0.15);
         border-color: var(--color-accent);
         box-shadow:
-          0 0 8px color-mix(in srgb, var(--color-accent) 55%, transparent),
-          0 0 16px color-mix(in srgb, var(--color-accent) 30%, transparent),
-          0 0 24px color-mix(in srgb, var(--color-accent) 15%, transparent);
+          0 0 8px rgba(79, 143, 255, 0.55),
+          0 0 16px rgba(79, 143, 255, 0.3),
+          0 0 24px rgba(79, 143, 255, 0.15);
       }
       .tab-btn--active span {
         color: var(--color-accent);
@@ -762,15 +761,9 @@
         align-items: center;
         gap: var(--space-sm);
         flex-wrap: wrap;
-        position: sticky;
-        top: var(--tab-bar-h);
-        z-index: 50;
-        background: color-mix(in srgb, var(--color-bg) 80%, transparent);
-        backdrop-filter: blur(8px);
-        -webkit-backdrop-filter: blur(8px);
-        padding-top: var(--space-sm);
-        padding-bottom: var(--space-md);
         margin-bottom: var(--space-md);
+        padding-bottom: var(--space-md);
+        border-bottom: 1px solid var(--color-border);
       }
 
       .btn-action {
@@ -1458,15 +1451,6 @@
         #budget-table thead {
           display: none;
         }
-        #budget-table {
-          table-layout: fixed;
-          width: 100%;
-        }
-        #budget-table tbody td:nth-child(1) {
-          width: 32px;
-          text-align: center;
-          padding: 4px 2px;
-        }
 
         /* Table cells scoped to tbody (tfoot queda libre) */
         #reg-table tbody td,
@@ -1483,6 +1467,10 @@
         }
 
         /* Solo tarjetas de crédito tiene scroll horizontal */
+        #cc-table {
+          white-space: nowrap;
+        }
+
         /* Filter group: toggle muestra selects en mobile */
         .btn-filter-toggle {
           display: inline-flex;
@@ -1662,23 +1650,14 @@
           min-height: 64px;
         }
         #cat-modal .modal-box {
-          height: auto;
           max-height: 90vh;
-          overflow: hidden;
-        }
-        #cat-modal .modal-header {
-          flex-shrink: 0;
         }
         #cat-modal .modal-body {
-          flex: 1 1 auto;
-          min-height: 0;
-          overflow-y: auto;
           padding: var(--space-sm);
         }
-        #cat-modal .cat-grid {
+        .cat-grid {
           grid-template-columns: repeat(3, 1fr);
           max-height: none;
-          overflow-y: visible;
         }
 
         .icon-grid {
@@ -1752,7 +1731,7 @@
         }
 
         .cc-table-input {
-          max-width: 100%;
+          max-width: 70px;
           font-size: 0.78rem;
           padding: 3px 4px;
         }
@@ -3152,35 +3131,12 @@
         color: #fff;
       }
 
-      @media (max-width: 768px) {
-        #comunes-cards {
-          padding: var(--space-sm) 4px;
-        }
-        .item-people-panel {
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          align-items: start;
-        }
-        .person-chip {
-          width: 100%;
-          box-sizing: border-box;
-        }
-        .person-chip .person-chip-name {
-          width: 100%;
-          min-width: 0;
-        }
-        .person-chip-add {
-          grid-column: 1 / -1;
-          justify-self: start;
-        }
-      }
-
-
       /* =====================================================================
        29. TARJETAS DE CRÉDITO
        ===================================================================== */
       .cc-table-input {
         width: 100%;
+        max-width: 110px;
         background: var(--color-surface-2);
         border: 1px solid var(--color-border);
         border-radius: var(--radius-sm);
@@ -3198,152 +3154,25 @@
         border-color: var(--color-accent);
         box-shadow: 0 0 0 2px color-mix(in srgb, var(--color-accent) 25%, transparent);
       }
-      /* ── Cards de tarjetas ─────────────────────────────────────── */
-      .cc-cards-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-        gap: var(--space-md);
-        padding: var(--space-xs) 0;
+      #cc-table tr.due-danger {
+        background: rgba(240, 82, 82, 0.12);
       }
-      .cc-card {
-        background: var(--color-surface);
-        border: 1px solid var(--color-border);
-        border-left: 4px solid var(--color-accent);
-        border-radius: var(--radius-lg);
-        padding: var(--space-md);
-        box-shadow: var(--shadow-sm);
-        transition: border-color 0.2s, box-shadow 0.2s;
+      #cc-table tr.due-warning {
+        background: rgba(245, 158, 11, 0.12);
       }
-      .cc-card.due-danger  { border-left-color: var(--color-danger); }
-      .cc-card.due-warning { border-left-color: var(--color-warning); }
-      .cc-card-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: flex-start;
-        margin-bottom: var(--space-xs);
-      }
-      .cc-card-title {
-        display: flex;
-        align-items: center;
-        gap: var(--space-xs);
-        font-weight: 600;
-        font-size: var(--font-lg);
-        color: var(--color-text);
-      }
-      .cc-card-icon { font-size: 1.1rem; }
-      .cc-card-actions {
-        display: flex;
-        align-items: center;
-        gap: var(--space-sm);
-      }
-      .cc-exclude-label {
-        display: flex;
-        align-items: center;
-        gap: 4px;
-        font-size: var(--font-xs);
-        color: var(--color-text-muted);
-        cursor: pointer;
-        user-select: none;
-      }
-      .cc-card-due {
-        font-size: var(--font-xs);
-        color: var(--color-text-muted);
-        margin-bottom: var(--space-sm);
-      }
-      .cc-card-due.due-danger  { color: var(--color-danger); font-weight: 600; }
-      .cc-card-due.due-warning { color: var(--color-warning); font-weight: 600; }
-      .cc-card-bar-wrap {
-        display: flex;
-        align-items: center;
-        gap: var(--space-xs);
-        margin-bottom: var(--space-sm);
-      }
-      .cc-card-bar-track {
-        flex: 1;
-        height: 8px;
-        background: var(--color-surface-2);
-        border: 1px solid var(--color-border);
-        border-radius: var(--radius-full);
-        overflow: hidden;
-      }
-      .cc-card-bar-fill {
-        height: 100%;
-        border-radius: var(--radius-full);
-        background: var(--color-success);
-        transition: width 0.35s ease, background-color 0.35s ease;
-      }
-      .cc-card-bar-fill.bar--warning { background: var(--color-warning); }
-      .cc-card-bar-fill.bar--danger  { background: var(--color-danger); }
-      .cc-card-bar-pct {
-        font-size: var(--font-xs);
-        color: var(--color-text-muted);
-        min-width: 40px;
+      #cc-table td:nth-child(6),
+      #cc-table td:nth-child(9) {
         text-align: right;
-        font-variant-numeric: tabular-nums;
       }
-      .cc-card-figures {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: var(--space-sm);
-        margin-bottom: var(--space-md);
-        padding-bottom: var(--space-sm);
-        border-bottom: 1px solid var(--color-border);
+      #cc-table td:nth-child(1),
+      #cc-table td:nth-child(3) {
+        text-align: center;
       }
-      .cc-card-fig { display: flex; flex-direction: column; gap: 2px; }
-      .cc-fig-label {
-        font-size: 0.68rem;
-        color: var(--color-text-muted);
-        text-transform: uppercase;
-        letter-spacing: 0.04em;
+      #cc-table th,
+      #cc-table td,
+      #cc-table .cc-table-input {
+        font-size: 0.75rem;
       }
-      .cc-fig-val {
-        font-size: var(--font-md);
-        font-weight: 600;
-        color: var(--color-text);
-      }
-      .cc-card-inputs {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: var(--space-sm);
-      }
-      .cc-input-row { display: flex; flex-direction: column; gap: 3px; }
-      .cc-input-row label {
-        font-size: var(--font-xs);
-        color: var(--color-text-muted);
-      }
-      .cc-input-row--pago {
-        grid-column: 1 / -1;
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: center;
-        border-top: 1px solid var(--color-border);
-        padding-top: var(--space-xs);
-        margin-top: var(--space-xs);
-      }
-      .cc-input-row--pago .cc-fig-val { font-size: var(--font-lg); }
-      /* Totals summary card */
-      .cc-totals-card {
-        background: var(--color-surface-2);
-        border: 1px solid var(--color-border);
-        border-radius: var(--radius-lg);
-        padding: var(--space-md);
-      }
-      .cc-totals-title {
-        font-weight: 600;
-        font-size: var(--font-sm);
-        color: var(--color-text-muted);
-        text-transform: uppercase;
-        letter-spacing: 0.04em;
-        border-bottom: 1px solid var(--color-border);
-        padding-bottom: var(--space-xs);
-        margin-bottom: var(--space-sm);
-      }
-      .cc-totals-grid {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: var(--space-sm);
-      }
-      .cc-total-item { display: flex; flex-direction: column; gap: 2px; }
       .cc-empty {
         padding: var(--space-xl) var(--space-md);
         text-align: center;
@@ -3915,7 +3744,7 @@
       .action-bar,
       .section-header,
       .rec-item,
-      .cc-card,
+      .cc-row,
       .proj-row,
       .tx-row {
         transition:
@@ -4015,61 +3844,49 @@
     </div>
 
     <!-- ─── HTML Templates (invisible, clonados por JS) ──────────────────── -->
-    <template id="tpl-cc-card">
-      <div class="cc-card">
-        <div class="cc-card-header">
-          <div class="cc-card-title">
-            <span class="cc-card-icon">💳</span>
-            <span class="js-bank"></span>
-          </div>
-          <div class="cc-card-actions">
-            <label class="cc-exclude-label" title="Excluir del total adeudado">
-              <input type="checkbox" class="card-data-input" data-field="exclude" />
-              <span>Excluir</span>
-            </label>
-            <button class="btn-icon btn-icon--danger" data-action="delete" title="Eliminar tarjeta"></button>
-          </div>
-        </div>
-        <div class="cc-card-due js-due-date"></div>
-        <div class="cc-card-bar-wrap">
-          <div class="cc-card-bar-track">
-            <div class="cc-card-bar-fill js-bar"></div>
-          </div>
-          <span class="cc-card-bar-pct js-pct"></span>
-        </div>
-        <div class="cc-card-figures">
-          <div class="cc-card-fig">
-            <span class="cc-fig-label">Adeudado</span>
-            <span class="cc-fig-val amount--expense js-deuda-display"></span>
-          </div>
-          <div class="cc-card-fig">
-            <span class="cc-fig-label">Disponible</span>
-            <span class="cc-fig-val js-disp"></span>
-          </div>
-        </div>
-        <div class="cc-card-inputs">
-          <div class="cc-input-row">
-            <label>Monto Adeudado</label>
-            <input type="number" class="cc-table-input card-data-input" data-field="amount" step="0.01" />
-          </div>
-          <div class="cc-input-row">
-            <label>Línea de Crédito</label>
-            <input type="number" class="cc-table-input card-data-input" data-field="limit" step="0.01" placeholder="0.00" />
-          </div>
-          <div class="cc-input-row">
-            <label>Interés Anual %</label>
-            <input type="number" class="cc-table-input card-data-input" data-field="rate" step="0.01" />
-          </div>
-          <div class="cc-input-row">
-            <label>Meses p/Saldar</label>
-            <input type="number" class="cc-table-input card-data-input" data-field="months" min="1" />
-          </div>
-          <div class="cc-input-row cc-input-row--pago">
-            <label class="cc-fig-label">Pago Mensual Estimado</label>
-            <span class="cc-fig-val js-pago"></span>
-          </div>
-        </div>
-      </div>
+    <template id="tpl-cc-row">
+      <tr>
+        <td><input type="checkbox" class="card-data-input" data-field="exclude" /></td>
+        <td class="js-bank"></td>
+        <td class="js-due-date"></td>
+        <td>
+          <input
+            type="number"
+            class="cc-table-input card-data-input"
+            data-field="amount"
+            step="0.01"
+          />
+        </td>
+        <td>
+          <input
+            type="number"
+            class="cc-table-input card-data-input"
+            data-field="limit"
+            step="0.01"
+            placeholder="0.00"
+          />
+        </td>
+        <td class="js-disp"></td>
+        <td>
+          <input
+            type="number"
+            class="cc-table-input card-data-input"
+            data-field="rate"
+            step="0.01"
+          />
+        </td>
+        <td>
+          <input type="number" class="cc-table-input card-data-input" data-field="months" min="1" />
+        </td>
+        <td class="rec-amount js-pago"></td>
+        <td>
+          <button
+            class="btn-icon btn-icon--danger"
+            data-action="delete"
+            title="Eliminar tarjeta"
+          ></button>
+        </td>
+      </tr>
     </template>
 
     <template id="tpl-comunes-card">
@@ -4436,29 +4253,37 @@
           </div>
         </div>
         <div id="section-tarjetas" class="tab-pane" data-section="tarjetas">
-          <div id="cc-cards" class="cc-cards-grid"></div>
-          <div id="cc-tfoot" class="cc-totals-card hidden" style="margin-top: var(--space-md)">
-            <p class="cc-totals-title">Totales</p>
-            <div class="cc-totals-grid">
-              <div class="cc-total-item">
-                <span class="cc-fig-label">Total Adeudado</span>
-                <span id="cc-total-amount" class="cc-fig-val amount--expense">$0.00</span>
-              </div>
-              <div class="cc-total-item">
-                <span class="cc-fig-label">Línea Total</span>
-                <span id="cc-total-limit" class="cc-fig-val">$0.00</span>
-              </div>
-              <div class="cc-total-item">
-                <span class="cc-fig-label">Disponible Total</span>
-                <span id="cc-total-available" class="cc-fig-val balance--positive">$0.00</span>
-              </div>
-              <div class="cc-total-item">
-                <span class="cc-fig-label">Pago Mensual Total</span>
-                <span id="cc-total-monthly" class="cc-fig-val">$0.00</span>
-              </div>
-            </div>
+          <div class="table-wrapper">
+            <table class="data-table" id="cc-table">
+              <thead>
+                <tr>
+                  <th title="Excluir del total adeudado">Excluir</th>
+                  <th>Banco</th>
+                  <th>Día Pago</th>
+                  <th>Monto Adeudado</th>
+                  <th>Línea de Crédito</th>
+                  <th>Saldo Disponible</th>
+                  <th>Interés Anual %</th>
+                  <th>Meses p/Saldar</th>
+                  <th>Pago Mensual</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody id="cc-tbody"></tbody>
+              <tfoot id="cc-tfoot" class="hidden">
+                <tr>
+                  <td colspan="3">Totales</td>
+                  <td id="cc-total-amount">$0.00</td>
+                  <td id="cc-total-limit">$0.00</td>
+                  <td id="cc-total-available">$0.00</td>
+                  <td colspan="2">Total Pago Mensual</td>
+                  <td id="cc-total-monthly">$0.00</td>
+                  <td></td>
+                </tr>
+              </tfoot>
+            </table>
+            <p id="cc-empty" class="cc-empty">No has añadido ninguna tarjeta de crédito.</p>
           </div>
-          <p id="cc-empty" class="cc-empty">No has añadido ninguna tarjeta de crédito.</p>
         </div>
         <div id="section-saldos" class="tab-pane" data-section="saldos">
           <div class="saldo-grid" id="saldos-grid"></div>
@@ -5616,7 +5441,7 @@
         <button id="btn-terms">Términos</button>
         <button id="btn-cookies">Cookies</button>
       </nav>
-      <p id="app-version">V FSA 0018</p>
+      <p id="app-version">V FSA 0002</p>
     </footer>
 
     <script type="module">
@@ -9114,10 +8939,10 @@
       }
 
       function renderCreditCardsTable() {
-        const container = document.getElementById('cc-cards');
+        const tbody = document.getElementById('cc-tbody');
         const tfoot = document.getElementById('cc-tfoot');
         const empty = document.getElementById('cc-empty');
-        container.textContent = '';
+        tbody.textContent = '';
 
         const sorted = [...appState.creditCards].sort((a, b) => a.dueDate - b.dueDate);
 
@@ -9134,11 +8959,14 @@
         empty.classList.add('hidden');
 
         const today = new Date();
-        let totalAdeudado = 0, totalLimite = 0, totalMensual = 0;
-        const TRASH = ICON_TRASH;
-        const tplCard = document.getElementById('tpl-cc-card');
-        const frag = document.createDocumentFragment();
+        let totalAdeudado = 0,
+          totalLimite = 0,
+          totalMensual = 0;
 
+        const TRASH = ICON_TRASH;
+
+        const tplRow = document.getElementById('tpl-cc-row');
+        const frag = document.createDocumentFragment();
         sorted.forEach((card) => {
           const next = new Date(today.getFullYear(), today.getMonth(), card.dueDate);
           if (today.getDate() > card.dueDate) next.setMonth(next.getMonth() + 1);
@@ -9147,56 +8975,48 @@
           const deuda = parseFloat(card.amount) || 0;
           const limite = parseFloat(card.limit) || 0;
           const disponible = limite - deuda;
-          const pct = limite > 0 ? Math.min(100, (deuda / limite) * 100) : 0;
           const pago = calculateMonthlyPayment(deuda, card.rate, card.months);
 
           if (!card.exclude) totalAdeudado += deuda;
           totalLimite += limite;
           totalMensual += pago;
 
-          const cardEl = tplCard.content.cloneNode(true).querySelector('.cc-card');
-          cardEl.dataset.cardId = card.id;
-          if (days >= 0 && days <= 2) cardEl.classList.add('due-danger');
-          else if (days <= 5) cardEl.classList.add('due-warning');
+          const tr = tplRow.content.cloneNode(true).querySelector('tr');
+          tr.dataset.cardId = card.id;
+          if (days >= 0 && days <= 2) tr.classList.add('due-danger');
+          else if (days <= 5) tr.classList.add('due-warning');
 
-          cardEl.querySelector('.js-bank').textContent = card.bank;
+          const chk = tr.querySelector('[data-field="exclude"]');
+          chk.checked = !!card.exclude;
 
-          const dueEl = cardEl.querySelector('.js-due-date');
-          const dueText = days <= 2
-            ? `⚠ Vence en ${days} día${days === 1 ? '' : 's'}`
-            : days <= 5
-              ? `Vence en ${days} días`
-              : `Día de pago: ${card.dueDate}`;
-          dueEl.textContent = dueText;
-          if (days <= 2) dueEl.classList.add('due-danger');
-          else if (days <= 5) dueEl.classList.add('due-warning');
+          tr.querySelector('.js-bank').textContent = card.bank;
+          tr.querySelector('.js-due-date').textContent = card.dueDate;
 
-          const barFill = cardEl.querySelector('.js-bar');
-          barFill.style.width = `${pct.toFixed(1)}%`;
-          if (pct >= 90) barFill.classList.add('bar--danger');
-          else if (pct >= 70) barFill.classList.add('bar--warning');
-          cardEl.querySelector('.js-pct').textContent = `${pct.toFixed(0)}%`;
+          const inAmt = tr.querySelector('[data-field="amount"]');
+          inAmt.value = deuda.toFixed(2);
 
-          cardEl.querySelector('.js-deuda-display').textContent = formatCurrency(deuda);
+          const inLim = tr.querySelector('[data-field="limit"]');
+          inLim.value = limite.toFixed(2);
 
-          const dispEl = cardEl.querySelector('.js-disp');
-          dispEl.textContent = formatCurrency(disponible);
-          dispEl.className = `cc-fig-val js-disp ${disponible >= 0 ? 'balance--positive' : 'balance--negative'}`;
+          const tdDisp = tr.querySelector('.js-disp');
+          tdDisp.textContent = formatCurrency(disponible);
+          tdDisp.className = `js-disp ${disponible >= 0 ? 'balance--positive' : 'balance--negative'}`;
 
-          cardEl.querySelector('[data-field="exclude"]').checked = !!card.exclude;
-          cardEl.querySelector('[data-field="amount"]').value = deuda.toFixed(2);
-          cardEl.querySelector('[data-field="limit"]').value = limite > 0 ? limite.toFixed(2) : '';
-          cardEl.querySelector('[data-field="rate"]').value = Number(card.rate).toFixed(2);
-          cardEl.querySelector('[data-field="months"]').value = card.months;
-          cardEl.querySelector('.js-pago').textContent = formatCurrency(pago);
+          const inRate = tr.querySelector('[data-field="rate"]');
+          inRate.value = Number(card.rate).toFixed(2);
 
-          const delBtn = cardEl.querySelector('[data-action="delete"]');
+          const inMon = tr.querySelector('[data-field="months"]');
+          inMon.value = card.months;
+
+          tr.querySelector('.js-pago').textContent = formatCurrency(pago);
+
+          const delBtn = tr.querySelector('[data-action="delete"]');
           delBtn.dataset.id = card.id;
           delBtn.innerHTML = TRASH;
 
-          frag.appendChild(cardEl);
+          frag.appendChild(tr);
         });
-        container.appendChild(frag);
+        tbody.appendChild(frag);
 
         const totalDisp = totalLimite - totalAdeudado;
         document.getElementById('cc-total-amount').textContent = formatCurrency(totalAdeudado);
@@ -9227,7 +9047,7 @@
           }
         }
 
-        const cardId = input.closest('[data-card-id]').dataset.cardId;
+        const cardId = input.closest('tr').dataset.cardId;
         try {
           await updateDoc(doc(db, DB_COL(user.uid, 'creditCards'), cardId), { [field]: value });
         } catch (err) {
@@ -9779,7 +9599,11 @@
 
           // Categoría
           const tdCat = tr.insertCell();
-          tdCat.appendChild(buildCatDisplay(p.category || '', p.transferLeg ? 'transfer' : p.type));
+          if (p.category) {
+            tdCat.appendChild(buildCatDisplay(p.category));
+          } else {
+            tdCat.textContent = '—';
+          }
 
           // Banco (desktop) / ícono info (mobile)
           const tdBank = tr.insertCell();
@@ -11011,35 +10835,6 @@
           if (btn) switchTab(btn.dataset.tab);
         });
 
-        // Swipe horizontal para navegar entre tabs
-        (function () {
-          const TAB_ORDER = [
-            'registros', 'voz', 'proyeccion', 'recurrentes', 'gastos-comunes',
-            'tarjetas', 'saldos', 'reportes', 'presupuesto', 'configuracion',
-          ];
-          let sx = 0, sy = 0;
-
-          document.addEventListener('touchstart', (e) => {
-            sx = e.touches[0].clientX;
-            sy = e.touches[0].clientY;
-          }, { passive: true });
-
-          document.addEventListener('touchend', (e) => {
-            if (document.body.classList.contains('view-dashboard')) return;
-            if (document.querySelector('.modal-overlay.active')) return;
-            if (e.target.closest('.table-wrapper, input, textarea, select, [contenteditable]')) return;
-
-            const dx = e.changedTouches[0].clientX - sx;
-            const dy = e.changedTouches[0].clientY - sy;
-            if (Math.abs(dx) < 50 || Math.abs(dx) <= Math.abs(dy)) return;
-
-            const idx = TAB_ORDER.indexOf(appState.currentTab);
-            if (idx === -1) return;
-            if (dx < 0 && idx < TAB_ORDER.length - 1) switchTab(TAB_ORDER[idx + 1]);
-            else if (dx > 0 && idx > 0) switchTab(TAB_ORDER[idx - 1]);
-          }, { passive: true });
-        })();
-
         // Logout
         document.getElementById('logout-btn').addEventListener('click', handleLogout);
         document.getElementById('logout-tab-btn').addEventListener('click', handleLogout);
@@ -11624,9 +11419,9 @@
         document.getElementById('cc-close-btn').addEventListener('click', closeCcModal);
         document.getElementById('cc-form').addEventListener('submit', handleCcFormSubmit);
 
-        // Edición inline y eliminación (event delegation en cc-cards)
-        document.getElementById('cc-cards').addEventListener('change', handleCardDataChange);
-        document.getElementById('cc-cards').addEventListener('click', (e) => {
+        // Edición inline y eliminación (event delegation en tbody)
+        document.getElementById('cc-tbody').addEventListener('change', handleCardDataChange);
+        document.getElementById('cc-tbody').addEventListener('click', (e) => {
           const btn = e.target.closest('[data-action="delete"]');
           if (btn) deleteCreditCard(btn.dataset.id);
         });
@@ -12167,9 +11962,6 @@
         'gano',
         'ganó',
         'me depositaron',
-        'obtuve',
-        'percibi',
-        'ingrese',
       ];
       const VOICE_EXPENSE_KW = [
         'gasté',
@@ -12368,29 +12160,9 @@
         let rem = ' ' + norm + ' ';
 
         // ── 1. TIPO ───────────────────────────────────────────────────────
-        // Usa word-boundary (\b) para evitar falsos positivos por substring
-        // (ej: "transferi" dentro de "transferencia"). Para frases multi-palabra
-        // se mantiene includes() porque \b no aplica igual.
-        const kwPos = (text, kwList) => {
-          let best = -1;
-          for (const kw of kwList) {
-            let idx;
-            if (kw.includes(' ')) {
-              idx = text.indexOf(kw);
-            } else {
-              const m = new RegExp(`\\b${kw}\\b`).exec(text);
-              idx = m ? m.index : -1;
-            }
-            if (idx !== -1 && (best === -1 || idx < best)) best = idx;
-          }
-          return best;
-        };
-        const incPos = kwPos(norm, VOICE_INCOME_KW);
-        const expPos = kwPos(norm, VOICE_EXPENSE_KW);
-        // El keyword que aparece primero en la frase determina el tipo.
-        // Si solo hay uno de los dos, ese gana. Si ninguno, default gasto.
-        result.type =
-          incPos !== -1 && (expPos === -1 || incPos <= expPos) ? 'income' : 'expense';
+        const hasInc = VOICE_INCOME_KW.some((kw) => norm.includes(kw));
+        const hasExp = VOICE_EXPENSE_KW.some((kw) => norm.includes(kw));
+        result.type = hasInc && !hasExp ? 'income' : 'expense';
 
         // ── 2. FECHA ──────────────────────────────────────────────────────
         const today = new Date();
@@ -12431,21 +12203,6 @@
         }
 
         // ── 3. MONTO ──────────────────────────────────────────────────────
-        // Normalizar formatos de números antes de parsear:
-
-        // Formato europeo completo: 90.284,50 → 90284.50
-        // (punto = miles, coma = decimal)
-        rem = rem.replace(/\b(\d{1,3}(?:\.\d{3})+),(\d{1,2})\b/g, (_, int, dec) =>
-          int.replace(/\./g, '') + '.' + dec
-        );
-
-        // Solo miles europeo sin decimal: 90.284 → 90284
-        // (exactamente 3 dígitos después del punto → miles, no decimal)
-        rem = rem.replace(/\b(\d{1,3}(?:\.\d{3})+)\b/g, (m) => m.replace(/\./g, ''));
-
-        // Formato americano: 15,000 → 15000 (coma = miles)
-        rem = rem.replace(/\b(\d{1,3}(?:,\d{3})+)\b/g, (m) => m.replace(/,/g, ''));
-
         let amountFound = false;
 
         // Estrategia A: número en español + moneda ("de cien dolares con cincuenta")
