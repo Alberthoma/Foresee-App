@@ -1,7 +1,7 @@
 # Plan de Mejoras — Foresee App
 
 **Creado:** 2026-06-13
-**Última actualización:** 2026-06-13
+**Última actualización:** 2026-06-14
 
 Este documento define el plan de implementación de mejoras prioritarias para Foresee.
 Actualizar el estado de cada tarea a medida que se complete.
@@ -44,6 +44,7 @@ Actualizar el estado de cada tarea a medida que se complete.
 ### MEJORA 1 — Gráfico de categorías
 **Estado:** ⏳ Pendiente
 **Complejidad:** Baja
+**Estimación:** 1-2 sesiones
 **Versión completada:** —
 **Dependencias:** Ninguna — Chart.js ya está incluido en la app
 
@@ -64,11 +65,24 @@ Gráfico donut interactivo en la sección de Reportes que muestra el gasto del m
 - Excluir transferencias internas del cálculo (no son gastos reales)
 - Mínimo: mostrar solo categorías con gasto > 0 en el mes
 
+#### Sección y funciones afectadas
+- **Sección HTML:** `#section-reportes` (línea ~4469)
+- `renderReportes()` (línea 10044) — función principal a modificar; agregar el canvas del donut y la lógica de agrupación por categoría dentro de esta función
+- Los chart instances existentes (`expensesChartInstance`, `cashFlowChartInstance`) no se tocan — se añade uno nuevo
+
+#### Criterio de aceptación
+- [ ] El donut aparece en Reportes al cambiar de mes
+- [ ] Cada porción tiene el color de la categoría (de `appState.categories`)
+- [ ] Hacer clic en una porción filtra la tabla de transacciones por esa categoría
+- [ ] Las transferencias internas no aparecen en el gráfico
+- [ ] Si no hay gastos en el mes, el gráfico muestra estado vacío sin errores en consola
+
 ---
 
 ### MEJORA 2 — Presupuesto por categoría
 **Estado:** ⏳ Pendiente
 **Complejidad:** Media
+**Estimación:** 1-2 sesiones
 **Versión completada:** —
 **Dependencias:** Ninguna
 
@@ -97,11 +111,26 @@ El usuario define un límite mensual de gasto por categoría. En Reportes aparec
 - El campo `budget` es opcional — mostrar las barras solo en categorías que tienen límite definido
 - No romper la estructura actual de categorías al agregar el campo nuevo
 
+#### Sección y funciones afectadas
+- **Secciones HTML:** `#section-presupuesto` (línea ~4535) para mostrar las barras; `#section-configuracion` (línea ~4561) para editar el límite por categoría
+- `categoryBudgets: {}` ya existe en `appState` (línea 5691) y se persiste en Firestore (línea 8500) — la infraestructura de datos está lista, no hay que crear nada nuevo en el modelo
+- `renderBudgetTable()` (línea 8752) — ampliar para mostrar barras de progreso por categoría con color semántico
+- `saveCategoryWithIcon()` (línea 8359) — agregar campo numérico "Límite mensual" en el modal de edición de categoría
+- `saveBudgets()` (línea 8874) — ya guarda `categoryBudgets` en Firestore; verificar si aplica o crear lógica específica
+
+#### Criterio de aceptación
+- [ ] En Configuración > Categorías, cada categoría tiene campo opcional "Límite mensual"
+- [ ] En Presupuesto, las categorías con límite definido muestran barra de progreso (gastado / límite)
+- [ ] Colores correctos: verde < 70%, naranja 70-90%, rojo > 90%
+- [ ] Categorías sin límite definido no muestran barra (comportamiento actual intacto)
+- [ ] El límite se guarda en Firestore y persiste entre sesiones
+
 ---
 
 ### MEJORA 3 — Notificaciones inteligentes
 **Estado:** ⏳ Pendiente
 **Complejidad:** Baja
+**Estimación:** 1 sesión
 **Versión completada:** —
 **Dependencias:** Mejora 2 (presupuesto por categoría) para las alertas de límite
 
@@ -113,7 +142,7 @@ Tres tipos de alerta proactiva:
 
 #### Estrategia de implementación
 1. **Alerta de presupuesto:**
-   - Ejecutar tras cada `saveTransaction()` exitoso
+   - Ejecutar tras cada `finalizeTransaction()` exitoso
    - Calcular el gasto acumulado del mes en esa categoría
    - Si supera el 80% del `budget` definido → `showNotification()` con mensaje claro
    - Guardar en `localStorage` qué alertas ya se mostraron hoy para no repetir
@@ -132,11 +161,26 @@ Tres tipos de alerta proactiva:
 - La infraestructura de notificaciones del navegador ya está implementada — reutilizarla
 - No spamear: máximo una notificación por categoría por día
 
+#### Sección y funciones afectadas
+- No requiere nueva sección — trabaja sobre funciones existentes
+- `finalizeTransaction()` (línea 7117) — agregar comprobación de límite de categoría tras guardar exitosamente en Firestore
+- `renderDashboard()` (línea 6568) — agregar cálculo y banner de saldo proyectado negativo a 15 días
+- `renderRecurringAlerts()` (línea 6540) — ya detecta vencimientos; ampliar con notificación del navegador para los que vencen en ≤ 3 días
+- `budgetAlertsShown: {}` (línea 5698) — ya existe para deduplicar alertas de presupuesto; reutilizar el mismo patrón para las nuevas alertas
+
+#### Criterio de aceptación
+- [ ] Al guardar una transacción cuya categoría supera el 80% del límite → notificación del navegador aparece
+- [ ] La notificación no se repite más de una vez por categoría por día
+- [ ] Si el saldo proyectado a 15 días es negativo → banner visible en el dashboard
+- [ ] Si un recurrente vence en ≤ 3 días → notificación del navegador al abrir la app
+- [ ] Todo funciona aunque las notificaciones del navegador estén desactivadas (degradación sin errores)
+
 ---
 
 ### MEJORA 4 — Importar CSV/Excel de bancos
 **Estado:** ⏳ Pendiente
 **Complejidad:** Media-alta
+**Estimación:** 3-4 sesiones
 **Versión completada:** —
 **Dependencias:** SheetJS ya incluido en la app para Excel
 
@@ -173,7 +217,7 @@ Botón "Importar extracto" en la sección de Registro. Acepta `.csv` y `.xlsx`. 
 - Marcar duplicados detectados con advertencia, dejar al usuario decidir si importar igual
 
 **Paso 5 — Importación**
-- Llamar a `saveTransaction()` en lote para cada transacción confirmada
+- Llamar a `finalizeTransaction()` en lote para cada transacción confirmada
 - Mostrar resumen: "X transacciones importadas, Y duplicados omitidos"
 
 #### Notas técnicas
@@ -181,11 +225,27 @@ Botón "Importar extracto" en la sección de Registro. Acepta `.csv` y `.xlsx`. 
 - Manejar el caso de montos negativos (muchos bancos los usan para gastos)
 - El campo "Tipo" puede inferirse del signo del monto si el banco no tiene columna separada
 
+#### Sección y funciones afectadas
+- **Sección HTML:** `#section-registros` (línea ~4321) — agregar botón "Importar extracto" y el modal de importación (todo nuevo)
+- `finalizeTransaction()` (línea 7117) — llamar en lote para cada transacción confirmada; verificar si admite llamadas consecutivas sin efectos secundarios
+- `SheetJS` (`XLSX`) ya disponible globalmente en el scope del `<script>` — no requiere import adicional
+- Todo el flujo de UI (modal de mapeo, tabla previa, detección de duplicados) es código nuevo
+
+#### Criterio de aceptación
+- [ ] Botón "Importar extracto" visible en la sección de Registros
+- [ ] Acepta `.csv` y `.xlsx`
+- [ ] El usuario puede asignar qué columna es fecha / concepto / monto
+- [ ] Se muestra tabla previa antes de confirmar la importación
+- [ ] Los posibles duplicados se marcan visualmente con advertencia
+- [ ] El mapeo de columnas se guarda en localStorage para la próxima importación del mismo banco
+- [ ] Resumen al final: "X transacciones importadas, Y duplicados omitidos"
+
 ---
 
 ### MEJORA 5 — Metas de ahorro
 **Estado:** ⏳ Pendiente
 **Complejidad:** Media
+**Estimación:** 2-3 sesiones
 **Versión completada:** —
 **Dependencias:** Ninguna — sección nueva independiente
 
@@ -227,11 +287,28 @@ metas: [
 - Meta completada: cuando ahorrado >= objetivo → cambiar estado y mostrar celebración (toast)
 - Los abonos NO se registran como transacciones en el registro principal (son independientes)
 
+#### Sección y funciones afectadas
+- **Sección nueva:** `#section-metas` — agregar en HTML junto al resto de secciones (~línea 4560) y añadir ítem en la barra de navegación
+- `renderAll()` (línea 10894) — agregar llamada a la nueva función `renderMetas()`
+- `loadUserData()` (~línea 6063) — suscribir a colección `metas` en Firestore (mismo patrón que `creditCards`, línea 6176)
+- `appState` (línea 5682) — agregar campo `metas: []`
+- Colección Firestore `metas` — no existe aún, se crea con el primer `addDoc`
+
+#### Criterio de aceptación
+- [ ] Nueva sección "Metas" accesible desde la navegación
+- [ ] El usuario puede crear una meta con nombre, monto objetivo y fecha límite
+- [ ] Cada meta muestra barra de progreso, % completado, monto restante y días restantes
+- [ ] Botón "Abonar" abre modal y registra el abono en Firestore
+- [ ] La fecha estimada de cumplimiento se calcula si hay al menos un abono previo
+- [ ] Al llegar al 100% → toast de celebración y estado cambia a "completada"
+- [ ] Los datos persisten en Firestore entre sesiones
+
 ---
 
 ### MEJORA 6 — Deudas y préstamos
 **Estado:** ⏳ Pendiente
 **Complejidad:** Baja-media
+**Estimación:** 1-2 sesiones
 **Versión completada:** —
 **Dependencias:** Ninguna — extensión de la sección existente de Tarjetas
 
@@ -274,11 +351,26 @@ prestamos: [
 - El cálculo de saldo pendiente puede ser simplificado (sin amortización francesa completa) si el usuario no ingresa tasa de interés — simplemente montoOriginal / totalCuotas × cuotasRestantes
 - Si ingresa tasa de interés → calcular tabla de amortización real
 
+#### Sección y funciones afectadas
+- **Sección HTML:** `#section-tarjetas` (línea ~4438) — agregar selector de pestañas "Tarjetas" / "Préstamos" dentro de la sección existente; no crear sección nueva
+- `renderCreditCardsTable()` (línea 9116) — convertir en función con pestañas o crear función hermana `renderPrestamosTable()`
+- `appState` (línea 5682) — agregar campo `prestamos: []`
+- `loadUserData()` (~línea 6063) — suscribir a colección `prestamos` en Firestore (mismo patrón que `creditCards`, línea 6176)
+- `renderCreditCardAlerts()` (línea 6524) — opcionalmente ampliar para incluir alertas de cuota de préstamo próxima a vencer
+
+#### Criterio de aceptación
+- [ ] La sección Tarjetas tiene dos pestañas: "Tarjetas/Crédito" (existente, sin cambios) y "Préstamos" (nueva)
+- [ ] El usuario puede dar de alta un préstamo con nombre, monto, cuota mensual y total de cuotas
+- [ ] Cada préstamo muestra: saldo pendiente, cuotas pagadas/total, barra de amortización y fecha de finalización
+- [ ] Botón "Registrar pago" marca una cuota como pagada
+- [ ] El comportamiento existente de tarjetas de crédito no se ve afectado
+
 ---
 
 ### MEJORA 7 — Escaneo de recibos (OCR)
 **Estado:** ⏳ Pendiente
 **Complejidad:** Alta
+**Estimación:** 2-3 sesiones
 **Versión completada:** —
 **Dependencias:** Ninguna — pero implementar al final por complejidad
 
@@ -330,3 +422,17 @@ El usuario toma una foto del ticket de compra o sube una imagen. La app extrae e
 - Mostrar spinner durante el procesamiento (puede tardar 2-5 segundos en móvil)
 - Si el OCR falla o no extrae datos → abrir el formulario vacío igual, sin bloquear al usuario
 - Idioma OCR: español (spa) — mejorar reconocimiento de caracteres especiales (€, ñ, tildes)
+
+#### Sección y funciones afectadas
+- **Punto de entrada:** modal de nueva transacción — `openCalcModal()` (línea 6933) — agregar botón "Escanear ticket" que inicia el flujo OCR
+- `finalizeTransaction()` (línea 7117) — debe aceptar datos pre-rellenados del OCR (monto, fecha, descripción) como argumentos opcionales
+- Tesseract.js se carga con `import()` dinámico la primera vez que el usuario pulsa el botón — no va en `<head>`
+- Canvas API nativa (sin dependencias adicionales) para el pre-procesamiento de imagen
+
+#### Criterio de aceptación
+- [ ] Botón "Escanear ticket" visible en el modal de nueva transacción
+- [ ] En móvil abre la cámara trasera; en desktop permite subir imagen desde galería
+- [ ] Spinner visible mientras se procesa el OCR
+- [ ] Si se extraen datos → formulario pre-relleno con monto, fecha y comercio detectados
+- [ ] Si el OCR falla → formulario vacío abierto igual (sin mensaje de error bloqueante)
+- [ ] Tesseract.js se descarga solo la primera vez que se usa, no en la carga inicial de la app
