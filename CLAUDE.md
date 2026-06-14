@@ -94,8 +94,10 @@ Crear `Informes de actualización\V FSA XXXX — YYYY-MM-DD.md`:
 - Agregar fila al **Historial de versiones**
 
 ### Paso 5 — Publicar
-Ejecutar `Git Push — Enviar cambios desde PC.bat`
-El bat crea el backup, hace commit y sube a GitHub automáticamente.
+Ejecutar el skill `/foresee-commit` — hace todo automáticamente:
+crea el backup, actualiza el footer, crea el informe, actualiza CLAUDE.md, hace commit y push a GitHub.
+
+Si no está disponible el skill, ejecutar manualmente `Git Push — Enviar cambios desde PC.bat`.
 
 ---
 
@@ -135,10 +137,26 @@ Cuando un cambio resulta incorrecto:
 ### Flujo según situación
 
 **Solo trabajé en PC:**
-Editar → informe → actualizar CLAUDE.md → ejecutar Push bat
+Editar `index.html` → ejecutar `/foresee-commit` (hace el resto solo)
 
 **Edité en el móvil antes:**
-Ejecutar Pull bat → editar → informe → actualizar CLAUDE.md → ejecutar Push bat
+Ejecutar `Git Pull — Traer cambios del movil.bat` → editar `index.html` → ejecutar `/foresee-commit`
+
+**Al completar una mejora del plan:**
+Ejecutar `/foresee-commit` → ejecutar `/foresee-mejora-done`
+
+---
+
+## 🤖 Skills disponibles
+
+Tres skills instalados en Claude para automatizar las tareas más repetitivas del proyecto.
+Los archivos fuente están en `skill\` dentro del proyecto.
+
+| Skill | Cuándo usarlo |
+|---|---|
+| `/foresee-find` | Antes de editar — localiza funciones, CSS, HTML o variables en las 13.000+ líneas sin leer el archivo completo |
+| `/foresee-commit` | Al terminar cualquier cambio — ejecuta el protocolo completo: backup, footer, informe, CLAUDE.md, commit y push |
+| `/foresee-mejora-done` | Al completar una mejora del plan — sincroniza el estado en CLAUDE.md y `MD/plan-mejoras.md` |
 
 ---
 
