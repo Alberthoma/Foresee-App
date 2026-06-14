@@ -100,30 +100,63 @@ Si la versión fue un intento fallido (el usuario lo indica), agregar con emoji 
 | V FSA [SIGUIENTE] ⚠️ | [HOY] | SUPERADO — [descripción breve], ver V FSA [SIGUIENTE+1] |
 ```
 
-### Paso 7 — Confirmar al usuario e instruir el push
+### Paso 7 — Crear backup de index.html
+
+Antes de hacer commit, crear el backup usando Bash:
+
+```bash
+cd "D:/$$$ Proyectos/0 Foresee-App/Foresee-App GitHub"
+
+# Detectar el número más alto en Backup/
+MAX=0
+for f in Backup/antes\ de\ V\ FSA\ *.html; do
+  num=$(echo "$f" | grep -oP '\d{4}' | head -1)
+  [ "$num" -gt "$MAX" ] && MAX=$num
+done
+NEXT=$(printf "%04d" $((MAX + 1)))
+TODAY=$(date +%Y-%m-%d)
+
+cp "index.html" "Backup/antes de V FSA $NEXT — $TODAY.html"
+```
+
+Actualizar también el campo `**Último backup:**` en CLAUDE.md con el nombre del backup creado.
+
+### Paso 8 — Hacer commit y push a GitHub
+
+Ejecutar via Bash desde la raíz del proyecto:
+
+```bash
+cd "D:/$$$ Proyectos/0 Foresee-App/Foresee-App GitHub"
+git add -A
+git commit -m "V FSA [SIGUIENTE] — [descripción breve del cambio]" \
+  --author="Alberthoma <albertomatosgil@gmail.com>"
+git push --force-with-lease origin main
+```
+
+Si `--force-with-lease` falla, reintentar con `git push --force origin main`.
+
+### Paso 9 — Confirmar resultado
 
 Mostrar este resumen al usuario:
 
 ```
-✅ Versión V FSA [SIGUIENTE] registrada correctamente.
+✅ Versión V FSA [SIGUIENTE] publicada en GitHub.
 
-Archivos actualizados:
+Archivos actualizados y subidos:
 • index.html — versión en el pie de página actualizada
-• Informes de actualización\V FSA [SIGUIENTE] — [HOY].md — informe creado
-• CLAUDE.md — versión activa, próxima, último informe e historial actualizados
+• Backup/antes de V FSA [SIGUIENTE] — [HOY].html — backup creado
+• Informes de actualización/V FSA [SIGUIENTE] — [HOY].md — informe creado
+• CLAUDE.md — versión activa, próxima, backup, informe e historial actualizados
 
-Para publicar en GitHub ejecuta:
-→ Git Push — Enviar cambios desde PC.bat
-
-El bat creará automáticamente el backup antes de subir.
+URL: https://github.com/Alberthoma/Foresee-App
 ```
 
 ---
 
 ## Reglas importantes
 
-- **Nunca usar Write en index.html** — el archivo tiene 13.000+ líneas. Siempre usar Edit con el bloque exacto a cambiar.
-- **El informe debe tener contenido real** — extraer la información del contexto de la conversación. Si no hay suficiente contexto para alguna sección, indicar "Ver conversación de sesión" pero nunca dejar el placeholder del template.
-- **No ejecutar el .bat** — el skill no puede ejecutar archivos .bat. Solo instruir al usuario que lo ejecute.
+- **Nunca usar Write en index.html** — 13.000+ líneas. Siempre Edit con el bloque exacto.
+- **El informe debe tener contenido real** — extraer del contexto de la conversación. Nunca dejar placeholders del template.
 - **Si hay duda sobre el número de versión** — CLAUDE.md es la fuente de verdad, no el footer de index.html.
 - **Versión SUPERADO** — si el usuario indica que el cambio fue incorrecto, registrar igual con el número siguiente y marcar en el historial con ⚠️.
+- **El push usa --force-with-lease** — la versión local siempre tiene prioridad sobre el remoto.
