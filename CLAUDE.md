@@ -371,7 +371,7 @@ Plan completo con estrategia e implementación: [`MD/plan-mejoras.md`](MD/plan-m
 
 | # | Mejora | Estado |
 |---|--------|--------|
-| 1 | Gráfico de categorías (donut interactivo) | ⏳ Pendiente |
+| 1 | Gráfico de categorías (donut interactivo) | ✅ Completado |
 | 2 | Presupuesto por categoría | ⏳ Pendiente |
 | 3 | Notificaciones inteligentes | ⏳ Pendiente |
 | 4 | Importar CSV/Excel de bancos | ⏳ Pendiente |

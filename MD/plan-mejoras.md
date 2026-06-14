@@ -12,7 +12,7 @@ Actualizar el estado de cada tarea a medida que se complete.
 
 | # | Mejora | Estado | Versión |
 |---|--------|--------|---------|
-| 1 | Gráfico de categorías (donut interactivo) | ⏳ Pendiente | — |
+| 1 | Gráfico de categorías (donut interactivo) | ✅ Completado | V FSA 0019 |
 | 2 | Presupuesto por categoría | ⏳ Pendiente | — |
 | 3 | Notificaciones inteligentes | ⏳ Pendiente | — |
 | 4 | Importar CSV/Excel de bancos | ⏳ Pendiente | — |
@@ -42,10 +42,10 @@ Actualizar el estado de cada tarea a medida que se complete.
 ---
 
 ### MEJORA 1 — Gráfico de categorías
-**Estado:** ⏳ Pendiente
+**Estado:** ✅ Completado
 **Complejidad:** Baja
 **Estimación:** 1-2 sesiones
-**Versión completada:** —
+**Versión completada:** V FSA 0019 (2026-06-14)
 **Dependencias:** Ninguna — Chart.js ya está incluido en la app
 
 #### Qué hace
