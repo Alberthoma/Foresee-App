@@ -1,3 +1,7 @@
+# CLAUDE.md
+
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+
 # Foresee — Gestor de Presupuesto Web
 
 ## Qué es Foresee
@@ -28,6 +32,24 @@ Foresee es una **app web de gestión de presupuesto personal** diseñada princip
 - Todo el código en **un único archivo HTML** (`index.html`, ~13.000+ líneas) — CSS, JS y HTML en un solo fichero
 
 Publicado en GitHub Pages: `https://github.com/Alberthoma/Foresee-App`
+
+### CDN dependencies (versiones fijas en `<head>`)
+- **Firebase 11.x** — Auth + Firestore (`firebase-app`, `firebase-auth`, `firebase-firestore`)
+- **Chart.js 4.4.4** — gráficos
+- **SheetJS (xlsx)** — exportación Excel
+- **jsPDF** — exportación PDF
+
+---
+
+## Desarrollo local
+
+**No hay sistema de build.** El proyecto es un único `index.html` autocontenido — CSS, JS y HTML en un solo archivo.
+
+Para previsualizar localmente:
+- VS Code → extensión **Live Server** → clic derecho en `index.html` → "Open with Live Server"
+- O cualquier servidor HTTP estático apuntando a la raíz del proyecto
+
+No hay comandos de build, lint, ni tests automatizados. La verificación se hace manualmente en el navegador.
 
 ---
 
