@@ -51,11 +51,11 @@ No hay comandos de build, lint, ni tests automatizados. La verificación se hace
 
 ## Estado actual
 
-- **Versión activa:** `V FSA 0018` (2026-06-06)
-- **Próxima versión:** `V FSA 0019`
+- **Versión activa:** `V FSA 0019` (2026-06-14)
+- **Próxima versión:** `V FSA 0020`
 - **Archivo de trabajo:** `index.html` (raíz del proyecto — único archivo que se edita)
-- **Último backup:** `Backup\antes de V FSA 0019 — 2026-06-06.html`
-- **Último informe:** `Informes de actualización\V FSA 0018 — 2026-06-06.md`
+- **Último backup:** `Backup\antes de V FSA 0019 — 2026-06-14.html`
+- **Último informe:** `Informes de actualización\V FSA 0019 — 2026-06-14.md`
 
 ---
 
@@ -348,6 +348,7 @@ cp "D:/$$$ Proyectos/0 Foresee-App/Foresee-App GitHub/skill/foresee-find/SKILL.m
 | V FSA 0016 ⚠️ | 2026-06-06 | SUPERADO — fix incorrecto, ver V FSA 0017 |
 | V FSA 0017 | 2026-06-06 | Corrección definitiva de V FSA 0015 y 0016 |
 | V FSA 0018 | 2026-06-06 | Fix ícono transferencia en tabla de proyección |
+| V FSA 0019 | 2026-06-14 | Donut interactivo en Reportes: click en porción/leyenda muestra detalle de transacciones por categoría |
 
 ---
 
