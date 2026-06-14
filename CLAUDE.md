@@ -141,50 +141,58 @@ Cuando un cambio resulta incorrecto:
 
 ---
 
-## 📝 Protocolo de sesión sin cambio de versión
+## 📝 Protocolo de cierre de sesión
 
-Cuando la sesión **no modifica `index.html`** (infraestructura, documentación, fixes de archivos, análisis) el protocolo de versiones no aplica. En su lugar, al cerrar la sesión:
+Al final de **cualquier sesión** — de código, infraestructura, documentación o planificación — el usuario puede pedir cerrar la sesión. Frases que activan este protocolo:
 
-### Cuándo aplica
-- Sesiones de mantenimiento: corrección de `.bat`, limpieza de archivos, actualización de docs
-- Sesiones de análisis o planificación sin tocar código
-- Cualquier sesión que no produzca una versión nueva (V FSA XXXX)
+> "cierra la sesión", "voy a cambiar de sesión", "guarda todo lo de esta sesión", "documenta la sesión", "procede a cerrar"
 
-### Cómo documentar
-1. Crear `MD/Sesion YYYY-MM-DD — Titulo descriptivo.md` con este contenido:
+El objetivo es dejar un registro que permita retomar el trabajo en una sesión futura sin perder contexto: qué se hizo, qué decisiones se tomaron, qué cambió y qué quedó pendiente.
+
+### Pasos
+
+1. **Proponer un título** para la sesión basado en el tema principal trabajado. Confirmar con el usuario si quiere otro nombre.
+
+2. **Crear `MD/Sesion YYYY-MM-DD — Titulo.md`** con este contenido:
    ```markdown
    # Sesión YYYY-MM-DD — Título
 
    **Fecha:** YYYY-MM-DD
    **Versión activa al cierre:** V FSA XXXX
-   **Tipo:** Infraestructura / Documentación / Análisis
+   **Tipo:** [Código / Infraestructura / Documentación / Planificación / Mixta]
 
    ## Resumen
-   [una o dos líneas de qué se hizo]
+   [dos o tres líneas: qué se trabajó y cuál fue el resultado]
 
-   ## [Sección por cada tema trabajado]
-   - Contexto
-   - Hallazgo o problema
-   - Solución o decisión tomada
+   ## [Una sección por cada tema o bloque de trabajo]
+   - Contexto o punto de partida
+   - Lo que se analizó o encontró
+   - Decisión tomada y por qué
+   - Resultado o solución aplicada
 
-   ## Estado al cierre de sesión
-   [tabla o lista con el estado de cada componente tocado]
+   ## Estado al cierre
+   [tabla o lista: componente → estado actual]
+
+   ## Pendiente para próxima sesión
+   [si hay algo sin terminar o que requiere seguimiento]
 
    ## Commits de esta sesión
-   [hash y mensaje de cada commit]
+   | Hash | Mensaje |
+   |------|---------|
+   | `xxxxxxx` | mensaje |
    ```
 
-2. Hacer commit directo (sin `/foresee-commit`):
+3. **Hacer commit y push:**
    ```
-   git add MD/Sesion\ YYYY-MM-DD\ —\ Titulo.md
+   git add "MD/Sesion YYYY-MM-DD — Titulo.md"
    git commit -m "Docs: agregar sesion YYYY-MM-DD a MD/"
    git push --force-with-lease origin main
    ```
 
-### Qué NO hace este protocolo
-- No actualiza la versión activa en CLAUDE.md
-- No crea backup de `index.html`
-- No genera informe en `Informes de actualización/`
+### Notas
+- Si la sesión incluyó cambios de versión en `index.html`, el informe de `Informes de actualización/` ya existe — el documento de sesión es **complementario**, no duplica ese contenido sino que da el contexto narrativo completo
+- El título del documento lo sugiere Claude basándose en lo trabajado; el usuario puede ajustarlo
+- Si el usuario vuelve a la misma sesión más tarde, actualizar el documento con lo nuevo antes de cerrar definitivamente
 
 ---
 
