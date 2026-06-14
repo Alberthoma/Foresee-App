@@ -278,6 +278,19 @@ cp "D:/$$$ Proyectos/0 Foresee-App/Foresee-App GitHub/skill/foresee-find/SKILL.m
 
 ---
 
+## 🚀 Plan de Comercialización
+
+Plan completo por fases: [`MD/Plan Comercializacion — Foresee.md`](MD/Plan%20Comercializacion%20%E2%80%94%20Foresee.md)
+
+| Fase | Estado | Descripción |
+|------|--------|-------------|
+| 1 — App lista para usuarios | ✅ Completa | Onboarding, recuperación de contraseña, selección de moneda, tutorial de videos, datos de demo, eliminar cuenta |
+| 2 — Mejoras de producto | ⬜ Próxima | Las 7 mejoras de `plan-mejoras.md` corresponden a esta fase |
+| 3 — Monetización | ⬜ Pendiente | Lógica freemium, Stripe + Cloud Functions, textos legales |
+| 4 — Lanzamiento | ⬜ Pendiente | Dominio propio, landing page, PWA instalable, email de soporte |
+
+---
+
 ## Mejoras planificadas
 
 Plan completo con estrategia e implementación: [`MD/plan-mejoras.md`](MD/plan-mejoras.md)
