@@ -1,9 +1,31 @@
 # Foresee — Gestor de Presupuesto Web
 
-## Qué es este proyecto
-App web de gestión de presupuesto personal. Todo el código vive en **un único archivo HTML**
-(`index.html`, ~13.000+ líneas) que incluye CSS, JS y HTML en un solo fichero. Usa Firebase Auth + Firestore
-para autenticación y persistencia, Chart.js para gráficos y jsPDF para exportar PDF.
+## Qué es Foresee
+Foresee es una **app web de gestión de presupuesto personal** diseñada principalmente para móvil. Permite al usuario llevar el control completo de sus finanzas personales: ingresos, gastos, saldos, deudas y proyecciones futuras.
+
+### Funcionalidades principales
+- **Registro de transacciones** — ingresos y gastos con categoría, banco, fecha y descripción. Entrada por calculadora o por voz (NLP en español)
+- **Categorías y bancos** — personalizables por el usuario
+- **Tarjetas de crédito** — seguimiento de deuda, pagos y alertas
+- **Gastos comunes** — distribución de gastos compartidos entre personas
+- **Gastos recurrentes** — suscripciones y pagos fijos mensuales
+- **Transferencias internas** — movimientos entre cuentas propias
+- **Saldos** — balance en tiempo real por banco y total
+- **Reportes y presupuesto** — tablas de ingresos/gastos con comparativa mensual
+- **Proyección financiera** — estimación de saldo futuro basada en patrones
+- **Exportar** — Excel (.xlsx) con 4 hojas y fórmulas, y PDF
+- **Modo oscuro/claro** — con transición suave y tokens CSS
+- **PWA instalable** — funciona como app nativa en iOS y Android
+- **Notificaciones** — alertas del navegador para recordatorios
+- **Cambio de mes automático** — transición y cierre de ciclo mensual sin intervención del usuario
+
+### Tecnologías
+- **Firebase Auth + Firestore** — autenticación y persistencia en la nube
+- **Chart.js 4.4.4** — gráficos de ingresos/gastos
+- **jsPDF** — exportación a PDF
+- **Web Speech API** — entrada por voz
+- **SheetJS (xlsx)** — exportación a Excel
+- Todo el código en **un único archivo HTML** (`index.html`, ~13.000+ líneas) — CSS, JS y HTML en un solo fichero
 
 Publicado en GitHub Pages: `https://github.com/Alberthoma/Foresee-App`
 
