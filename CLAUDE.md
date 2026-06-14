@@ -51,11 +51,11 @@ No hay comandos de build, lint, ni tests automatizados. La verificación se hace
 
 ## Estado actual
 
-- **Versión activa:** `V FSA 0023` (2026-06-14)
-- **Próxima versión:** `V FSA 0024`
+- **Versión activa:** `V FSA 0024` (2026-06-14)
+- **Próxima versión:** `V FSA 0025`
 - **Archivo de trabajo:** `index.html` (raíz del proyecto — único archivo que se edita)
-- **Último backup:** `Backup\antes de V FSA 0023 — 2026-06-14.html`
-- **Último informe:** `Informes de actualización\V FSA 0023 — 2026-06-14.md`
+- **Último backup:** `Backup\antes de V FSA 0024 — 2026-06-14.html`
+- **Último informe:** `Informes de actualización\V FSA 0024 — 2026-06-14.md`
 
 ---
 
@@ -353,6 +353,7 @@ cp "D:/$$$ Proyectos/0 Foresee-App/Foresee-App GitHub/skill/foresee-find/SKILL.m
 | V FSA 0021 | 2026-06-14 | Mejora 4: sección Importar — CSV/Excel de bancos con preview, detección de duplicados y bulk save a Firestore |
 | V FSA 0022 | 2026-06-14 | Categoría editable en Registros (click en celda) + tooltip flotante en descripciones truncadas |
 | V FSA 0023 | 2026-06-14 | UX Importar: botón "Guardar en Registros", texto explicativo y navegación automática post-import |
+| V FSA 0024 | 2026-06-14 | Duplicados estrictos en Importar (desc+monto+fecha+banco), edición inline de descripción en Registros, auto-detección Zelle como transferencia |
 
 ---
 
