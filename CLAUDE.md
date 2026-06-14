@@ -196,6 +196,26 @@ Ejecutar Pull bat → editar → informe → actualizar CLAUDE.md → ejecutar P
 
 ---
 
+## Mejoras planificadas
+
+Plan completo con estrategia e implementación: [`MD/plan-mejoras.md`](MD/plan-mejoras.md)
+
+| # | Mejora | Estado |
+|---|--------|--------|
+| 1 | Gráfico de categorías (donut interactivo) | ⏳ Pendiente |
+| 2 | Presupuesto por categoría | ⏳ Pendiente |
+| 3 | Notificaciones inteligentes | ⏳ Pendiente |
+| 4 | Importar CSV/Excel de bancos | ⏳ Pendiente |
+| 5 | Metas de ahorro | ⏳ Pendiente |
+| 6 | Deudas y préstamos | ⏳ Pendiente |
+| 7 | Escaneo de recibos (OCR) | ⏳ Pendiente |
+
+**Estados:** ⏳ Pendiente — 🔄 En progreso — ✅ Completado — ❌ Descartado
+
+Al completar cada mejora: actualizar esta tabla + actualizar `MD/plan-mejoras.md` con la versión V FSA en que se completó.
+
+---
+
 ## Deuda técnica (no urgente)
 - **Archivo único ~503KB** — separar CSS/JS/HTML mejoraría caché y carga inicial
 - **Patrón `window.*`** — Firebase exporta funciones a `window.*`; requiere refactorización mayor
