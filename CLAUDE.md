@@ -141,6 +141,53 @@ Cuando un cambio resulta incorrecto:
 
 ---
 
+## 📝 Protocolo de sesión sin cambio de versión
+
+Cuando la sesión **no modifica `index.html`** (infraestructura, documentación, fixes de archivos, análisis) el protocolo de versiones no aplica. En su lugar, al cerrar la sesión:
+
+### Cuándo aplica
+- Sesiones de mantenimiento: corrección de `.bat`, limpieza de archivos, actualización de docs
+- Sesiones de análisis o planificación sin tocar código
+- Cualquier sesión que no produzca una versión nueva (V FSA XXXX)
+
+### Cómo documentar
+1. Crear `MD/Sesion YYYY-MM-DD — Titulo descriptivo.md` con este contenido:
+   ```markdown
+   # Sesión YYYY-MM-DD — Título
+
+   **Fecha:** YYYY-MM-DD
+   **Versión activa al cierre:** V FSA XXXX
+   **Tipo:** Infraestructura / Documentación / Análisis
+
+   ## Resumen
+   [una o dos líneas de qué se hizo]
+
+   ## [Sección por cada tema trabajado]
+   - Contexto
+   - Hallazgo o problema
+   - Solución o decisión tomada
+
+   ## Estado al cierre de sesión
+   [tabla o lista con el estado de cada componente tocado]
+
+   ## Commits de esta sesión
+   [hash y mensaje de cada commit]
+   ```
+
+2. Hacer commit directo (sin `/foresee-commit`):
+   ```
+   git add MD/Sesion\ YYYY-MM-DD\ —\ Titulo.md
+   git commit -m "Docs: agregar sesion YYYY-MM-DD a MD/"
+   git push --force-with-lease origin main
+   ```
+
+### Qué NO hace este protocolo
+- No actualiza la versión activa en CLAUDE.md
+- No crea backup de `index.html`
+- No genera informe en `Informes de actualización/`
+
+---
+
 ## 🖥️ Git y publicación
 
 ### Configuración del repo
