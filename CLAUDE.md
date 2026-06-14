@@ -376,7 +376,7 @@ Plan completo con estrategia e implementación: [`MD/plan-mejoras.md`](MD/plan-m
 | 1 | Gráfico de categorías (donut interactivo) | ✅ Completado |
 | 2 | Presupuesto por categoría | ✅ Completado |
 | 3 | Notificaciones inteligentes | ✅ Completado |
-| 4 | Importar CSV/Excel de bancos | ⏳ Pendiente |
+| 4 | Importar CSV/Excel de bancos | ✅ Completado |
 | 5 | Metas de ahorro | ⏳ Pendiente |
 | 6 | Deudas y préstamos | ⏳ Pendiente |
 | 7 | Escaneo de recibos (OCR) | ⏳ Pendiente |

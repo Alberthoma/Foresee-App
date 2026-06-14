@@ -15,7 +15,7 @@ Actualizar el estado de cada tarea a medida que se complete.
 | 1 | Gráfico de categorías (donut interactivo) | ✅ Completado | V FSA 0019 |
 | 2 | Presupuesto por categoría | ✅ Completado | V FSA 0019 |
 | 3 | Notificaciones inteligentes | ✅ Completado | V FSA 0020 |
-| 4 | Importar CSV/Excel de bancos | ⏳ Pendiente | — |
+| 4 | Importar CSV/Excel de bancos | ✅ Completado | V FSA 0021 |
 | 5 | Metas de ahorro | ⏳ Pendiente | — |
 | 6 | Deudas y préstamos | ⏳ Pendiente | — |
 | 7 | Escaneo de recibos (OCR) | ⏳ Pendiente | — |
@@ -178,10 +178,10 @@ Tres tipos de alerta proactiva:
 ---
 
 ### MEJORA 4 — Importar CSV/Excel de bancos
-**Estado:** ⏳ Pendiente
+**Estado:** ✅ Completado
 **Complejidad:** Media-alta
 **Estimación:** 3-4 sesiones
-**Versión completada:** —
+**Versión completada:** V FSA 0021 (2026-06-14)
 **Dependencias:** SheetJS ya incluido en la app para Excel
 
 #### Qué hace
