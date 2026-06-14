@@ -1,0 +1,846 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Importador de Estados Bancarios</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: #f1f5f9;
+      color: #1e293b;
+      min-height: 100vh;
+    }
+
+    header {
+      background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 60%, #1e40af 100%);
+      color: white;
+      padding: 18px 32px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    header svg { opacity: 0.85; flex-shrink: 0; }
+    header h1  { font-size: 1.25rem; font-weight: 700; letter-spacing: -0.3px; }
+    header p   { font-size: 0.8rem; opacity: 0.65; margin-top: 2px; }
+
+    main { max-width: 1440px; margin: 0 auto; padding: 24px; }
+
+    /* ── Drop zone ─────────────────────────────────────────────── */
+    .drop-zone {
+      background: white;
+      border: 2px dashed #93c5fd;
+      border-radius: 14px;
+      padding: 36px 24px;
+      text-align: center;
+      cursor: pointer;
+      transition: border-color 0.15s, background 0.15s;
+      margin-bottom: 20px;
+      user-select: none;
+    }
+
+    .drop-zone:hover, .drop-zone.over {
+      border-color: #2563eb;
+      background: #eff6ff;
+    }
+
+    .drop-zone .icon { color: #3b82f6; margin-bottom: 10px; }
+    .drop-zone h3    { font-size: 0.975rem; color: #334155; margin-bottom: 4px; }
+    .drop-zone p     { font-size: 0.8rem; color: #94a3b8; }
+
+    /* ── Buttons ───────────────────────────────────────────────── */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 16px;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      font-size: 0.82rem;
+      font-weight: 600;
+      transition: background 0.15s, transform 0.1s;
+      white-space: nowrap;
+    }
+
+    .btn:active { transform: scale(0.97); }
+
+    .btn-primary { background: #2563eb; color: white; margin-top: 14px; padding: 8px 18px; }
+    .btn-primary:hover { background: #1d4ed8; }
+
+    .btn-clear  { background: #fee2e2; color: #b91c1c; }
+    .btn-clear:hover  { background: #fecaca; }
+
+    .btn-edit   { background: #e0f2fe; color: #0369a1; }
+    .btn-edit:hover   { background: #bae6fd; }
+
+    .btn-delete { background: #fee2e2; color: #b91c1c; }
+    .btn-delete:hover { background: #fecaca; }
+
+    .btn-cancel { background: #f1f5f9; color: #475569; }
+    .btn-cancel:hover { background: #e2e8f0; }
+
+    .btn-save   { background: #2563eb; color: white; }
+    .btn-save:hover   { background: #1d4ed8; }
+
+    /* ── Card ──────────────────────────────────────────────────── */
+    .card {
+      background: white;
+      border-radius: 14px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.08), 0 4px 12px rgba(0,0,0,0.04);
+      overflow: hidden;
+    }
+
+    /* ── Toolbar ───────────────────────────────────────────────── */
+    .toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 20px;
+      border-bottom: 1px solid #e2e8f0;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .toolbar-left h2 { font-size: 0.975rem; font-weight: 700; color: #0f172a; }
+
+    .stats {
+      display: flex;
+      gap: 20px;
+      font-size: 0.78rem;
+      color: #64748b;
+      flex-wrap: wrap;
+    }
+
+    .stats .val     { font-weight: 700; color: #0f172a; }
+    .stats .val.pos { color: #16a34a; }
+    .stats .val.neg { color: #dc2626; }
+
+    /* ── Selection bar ─────────────────────────────────────────── */
+    .sel-bar {
+      display: none;
+      align-items: center;
+      justify-content: space-between;
+      padding: 9px 20px;
+      background: #eff6ff;
+      border-bottom: 1px solid #bfdbfe;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .sel-bar.visible { display: flex; }
+
+    .sel-info {
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: #1d4ed8;
+    }
+
+    .sel-actions { display: flex; gap: 8px; }
+
+    /* ── Table ─────────────────────────────────────────────────── */
+    .tbl-wrap { overflow-x: auto; }
+
+    table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+
+    thead { background: #f8fafc; }
+
+    th {
+      padding: 10px 16px;
+      text-align: left;
+      font-size: 0.7rem;
+      font-weight: 700;
+      color: #64748b;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      border-bottom: 1px solid #e2e8f0;
+      white-space: nowrap;
+    }
+
+    td {
+      padding: 9px 16px;
+      border-bottom: 1px solid #f1f5f9;
+      color: #334155;
+      vertical-align: middle;
+    }
+
+    tbody tr:hover td    { background: #f8fafc; }
+    tbody tr.selected td { background: #eff6ff; }
+    tbody tr.selected:hover td { background: #dbeafe; }
+    tbody tr:last-child td { border-bottom: none; }
+
+    /* Checkbox column */
+    .th-cb, .td-cb {
+      width: 44px;
+      min-width: 44px;
+      padding-left: 16px;
+      padding-right: 4px;
+    }
+
+    input[type="checkbox"] {
+      width: 15px;
+      height: 15px;
+      cursor: pointer;
+      accent-color: #2563eb;
+    }
+
+    .td-fecha { white-space: nowrap; color: #64748b; font-size: 0.8rem; }
+    .td-desc  { max-width: 400px; }
+    .td-desc span { display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+    .monto-pos   { color: #16a34a; font-weight: 600; }
+    .monto-neg   { color: #dc2626; font-weight: 600; }
+    .monto-empty { color: #94a3b8; }
+
+    .badge {
+      display: inline-block;
+      padding: 2px 9px;
+      border-radius: 20px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    .b-boa   { background: #dbeafe; color: #1e40af; }
+    .b-chase { background: #fef9c3; color: #854d0e; }
+    .b-wells { background: #dcfce7; color: #166534; }
+    .b-other { background: #f3e8ff; color: #6b21a8; }
+
+    /* ── Empty state ───────────────────────────────────────────── */
+    .empty {
+      padding: 64px 32px;
+      text-align: center;
+      color: #94a3b8;
+    }
+
+    .empty svg { margin-bottom: 14px; opacity: 0.35; }
+    .empty h3  { font-size: 0.975rem; color: #64748b; margin-bottom: 6px; }
+    .empty p   { font-size: 0.8rem; }
+
+    /* ── Edit modal ────────────────────────────────────────────── */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.45);
+      z-index: 200;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-overlay.open { display: flex; }
+
+    .modal {
+      background: white;
+      border-radius: 14px;
+      box-shadow: 0 24px 64px rgba(0,0,0,0.3);
+      width: 100%;
+      max-width: 460px;
+      padding: 28px;
+      margin: 16px;
+    }
+
+    .modal h3 {
+      font-size: 1rem;
+      font-weight: 700;
+      color: #0f172a;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .field { margin-bottom: 14px; }
+
+    .field label {
+      display: block;
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: #64748b;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 5px;
+    }
+
+    .field input {
+      width: 100%;
+      padding: 8px 11px;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 8px;
+      font-size: 0.875rem;
+      color: #1e293b;
+      outline: none;
+      font-family: inherit;
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+
+    .field input:focus {
+      border-color: #2563eb;
+      box-shadow: 0 0 0 3px rgba(37,99,235,0.12);
+    }
+
+    .modal-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+      margin-top: 22px;
+    }
+
+    #fileInput { display: none; }
+
+    /* ── Tooltip flotante ──────────────────────────────────────── */
+    #tip {
+      position: fixed;
+      z-index: 400;
+      background: #1e293b;
+      color: #f1f5f9;
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-size: 0.8rem;
+      line-height: 1.55;
+      max-width: 440px;
+      word-break: break-word;
+      pointer-events: none;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.35);
+      opacity: 0;
+      transition: opacity 0.1s;
+    }
+    #tip.show { opacity: 1; }
+  </style>
+</head>
+<body>
+
+<header>
+  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+    <rect x="2" y="5" width="20" height="14" rx="2"/>
+    <path d="M2 10h20"/>
+  </svg>
+  <div>
+    <h1>Importador de Estados Bancarios</h1>
+    <p>Consolida tus movimientos desde archivos CSV de distintos bancos</p>
+  </div>
+</header>
+
+<main>
+  <div class="drop-zone" id="dropZone">
+    <div class="icon">
+      <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M4 17v1a3 3 0 003 3h10a3 3 0 003-3v-1M12 4v13M8 9l4-4 4 4"/>
+      </svg>
+    </div>
+    <h3>Arrastra tu archivo CSV aquí o haz clic para seleccionar</h3>
+    <p>Compatible con: Bank of America · Chase · Wells Fargo</p>
+    <button class="btn btn-primary" onclick="event.stopPropagation(); document.getElementById('fileInput').click()">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+        <path d="M12 4v16M4 12h16"/>
+      </svg>
+      Seleccionar archivo CSV
+    </button>
+  </div>
+  <input type="file" id="fileInput" accept=".csv,.CSV" multiple>
+
+  <div class="card">
+    <!-- Toolbar principal -->
+    <div class="toolbar">
+      <div class="toolbar-left">
+        <h2>Movimientos importados</h2>
+      </div>
+      <div class="stats" id="statsBar">
+        <span>Sin datos</span>
+      </div>
+      <div>
+        <button class="btn btn-clear" id="clearBtn" onclick="clearAll()" style="display:none">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <polyline points="3 6 5 6 21 6"/>
+            <path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6M10 11v6M14 11v6M9 6V4a1 1 0 011-1h4a1 1 0 011 1v2"/>
+          </svg>
+          Limpiar todo
+        </button>
+      </div>
+    </div>
+
+    <!-- Barra de selección (aparece al seleccionar filas) -->
+    <div class="sel-bar" id="selBar">
+      <span class="sel-info" id="selCount"></span>
+      <div class="sel-actions">
+        <button class="btn btn-edit" id="editBtn" onclick="editSelected()">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/>
+            <path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/>
+          </svg>
+          Editar
+        </button>
+        <button class="btn btn-delete" onclick="deleteSelected()">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <polyline points="3 6 5 6 21 6"/>
+            <path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6M10 11v6M14 11v6M9 6V4a1 1 0 011-1h4a1 1 0 011 1v2"/>
+          </svg>
+          Eliminar
+        </button>
+      </div>
+    </div>
+
+    <!-- Tabla -->
+    <div id="tableArea">
+      <div class="empty">
+        <svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+          <rect x="2" y="5" width="20" height="14" rx="2"/>
+          <path d="M2 10h20M8 14h2M14 14h2"/>
+        </svg>
+        <h3>No hay movimientos todavía</h3>
+        <p>Importa un archivo CSV para comenzar a ver los datos</p>
+      </div>
+    </div>
+  </div>
+</main>
+
+<div id="tip"></div>
+
+<!-- Modal de edición -->
+<div class="modal-overlay" id="editModal" onclick="if(event.target===this) closeEditModal()">
+  <div class="modal">
+    <h3>
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2.5">
+        <path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/>
+        <path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/>
+      </svg>
+      Editar movimiento
+    </h3>
+    <input type="hidden" id="editId">
+    <div class="field">
+      <label>Fecha</label>
+      <input type="text" id="editFecha" placeholder="MM/DD/AAAA">
+    </div>
+    <div class="field">
+      <label>Descripción</label>
+      <input type="text" id="editDesc">
+    </div>
+    <div class="field">
+      <label>Categoría</label>
+      <input type="text" id="editCat" placeholder="Sin categoría">
+    </div>
+    <div class="field">
+      <label>Banco</label>
+      <input type="text" id="editBanco">
+    </div>
+    <div class="field">
+      <label>Monto</label>
+      <input type="text" id="editMonto" placeholder="0.00">
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-cancel" onclick="closeEditModal()">Cancelar</button>
+      <button class="btn btn-save" onclick="saveEdit()">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <polyline points="20 6 9 17 4 12"/>
+        </svg>
+        Guardar cambios
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+  /* ─── State ──────────────────────────────────────────────────── */
+  let nextId      = 0;
+  let allRows     = [];          // { _id, fecha, descripcion, categoria, banco, monto }
+  let selectedIds = new Set();
+
+  /* ─── CSV parser (RFC-4180) ──────────────────────────────────── */
+  function parseCSV(text) {
+    const rows = [];
+    let row = [], field = '', inQ = false;
+
+    for (let i = 0; i < text.length; i++) {
+      const ch = text[i];
+      if (inQ) {
+        if (ch === '"') {
+          if (text[i + 1] === '"') { field += '"'; i++; }
+          else { inQ = false; }
+        } else { field += ch; }
+      } else {
+        if      (ch === '"')  { inQ = true; }
+        else if (ch === ',')  { row.push(field.trim()); field = ''; }
+        else if (ch === '\n') {
+          row.push(field.trim());
+          if (row.some(c => c !== '')) rows.push(row);
+          row = []; field = '';
+        } else if (ch !== '\r') { field += ch; }
+      }
+    }
+    row.push(field.trim());
+    if (row.some(c => c !== '')) rows.push(row);
+    return rows;
+  }
+
+  /* ─── Column aliases ─────────────────────────────────────────── */
+  const ALIASES = {
+    fecha:       ['date', 'fecha', 'posting date', 'transaction date'],
+    descripcion: ['description', 'descripcion', 'descripción', 'memo', 'narrative'],
+    monto:       ['amount', 'monto', 'importe', 'transaction amount'],
+  };
+
+  function findHeaderIdx(rows) {
+    for (let i = 0; i < Math.min(rows.length, 25); i++) {
+      const cells = rows[i].map(c => c.toLowerCase().trim());
+      const ok = f => cells.some(c => ALIASES[f].some(a => c === a || c.startsWith(a)));
+      if (ok('fecha') && ok('descripcion') && ok('monto')) return i;
+    }
+    return 0;
+  }
+
+  function buildColMap(headerRow) {
+    const map = { fecha: -1, descripcion: -1, monto: -1 };
+    headerRow.forEach((cell, i) => {
+      const lower = cell.toLowerCase().trim();
+      for (const [key, aliases] of Object.entries(ALIASES)) {
+        if (map[key] === -1 && aliases.some(a => lower === a || lower.startsWith(a)))
+          map[key] = i;
+      }
+    });
+    return map;
+  }
+
+  /* ─── Bank detection ─────────────────────────────────────────── */
+  function detectBank(filename) {
+    const n = filename.toLowerCase();
+    if (n.includes('bank of america') || n.includes('bankofamerica') || n.includes('boa')) return 'Bank of America';
+    if (n.includes('chase'))                                                                return 'Chase';
+    if (n.includes('wells fargo') || n.includes('wellsfargo'))                             return 'Wells Fargo';
+    return filename.replace(/\.[^/.]+$/, '');
+  }
+
+  function bankClass(bank) {
+    const b = bank.toLowerCase();
+    if (b.includes('bank of america')) return 'b-boa';
+    if (b.includes('chase'))           return 'b-chase';
+    if (b.includes('wells'))           return 'b-wells';
+    return 'b-other';
+  }
+
+  /* ─── Process CSV ────────────────────────────────────────────── */
+  function processFile(text, filename) {
+    const banco  = detectBank(filename);
+    const rows   = parseCSV(text);
+    const hIdx   = findHeaderIdx(rows);
+    const colMap = buildColMap(rows[hIdx]);
+    const result = [];
+
+    for (let i = hIdx + 1; i < rows.length; i++) {
+      const r = rows[i];
+      if (!r || r.every(c => c === '')) continue;
+
+      const fecha       = colMap.fecha       >= 0 ? (r[colMap.fecha]       || '') : '';
+      const descripcion = colMap.descripcion >= 0 ? (r[colMap.descripcion] || '') : '';
+      const montoRaw    = colMap.monto       >= 0 ? (r[colMap.monto]       || '') : '';
+
+      if (!fecha) continue;
+
+      const monto = montoRaw.replace(/,(?=\d{3})/g, '');
+      result.push({ _id: nextId++, fecha, descripcion, categoria: '', banco, monto });
+    }
+    return result;
+  }
+
+  /* ─── Formatting helpers ─────────────────────────────────────── */
+  function esc(s) {
+    return String(s)
+      .replace(/&/g,'&amp;').replace(/</g,'&lt;')
+      .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  function fmtSaldo(n) {
+    if (n === null || n === undefined) return '<span class="monto-empty">—</span>';
+    const abs = '$' + Math.abs(n).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    return n >= 0
+      ? `<span class="monto-pos">${abs}</span>`
+      : `<span class="monto-neg">-${abs}</span>`;
+  }
+
+  function fmtMonto(raw) {
+    if (raw === '' || raw == null) return '<span class="monto-empty">—</span>';
+    const n = parseFloat(raw);
+    if (isNaN(n)) return esc(raw);
+    const abs = '$' + Math.abs(n).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    return n >= 0
+      ? `<span class="monto-pos">+${abs}</span>`
+      : `<span class="monto-neg">-${abs}</span>`;
+  }
+
+  /* ─── Selection logic ────────────────────────────────────────── */
+  function toggleSelect(id) {
+    if (selectedIds.has(id)) selectedIds.delete(id);
+    else                      selectedIds.add(id);
+
+    // Update only the affected row (no full re-render)
+    const tr = document.querySelector(`tr[data-id="${id}"]`);
+    if (tr) {
+      tr.classList.toggle('selected', selectedIds.has(id));
+      const cb = tr.querySelector('input[type="checkbox"]');
+      if (cb) cb.checked = selectedIds.has(id);
+    }
+
+    syncSelectAll();
+    updateSelBar();
+  }
+
+  function toggleSelectAll(cb) {
+    if (cb.checked) allRows.forEach(r => selectedIds.add(r._id));
+    else            selectedIds.clear();
+
+    document.querySelectorAll('tbody tr[data-id]').forEach(tr => {
+      const id = parseInt(tr.dataset.id);
+      tr.classList.toggle('selected', selectedIds.has(id));
+      const chk = tr.querySelector('input[type="checkbox"]');
+      if (chk) chk.checked = selectedIds.has(id);
+    });
+
+    updateSelBar();
+  }
+
+  function syncSelectAll() {
+    const chkAll = document.getElementById('chkAll');
+    if (!chkAll || allRows.length === 0) return;
+    if (selectedIds.size === 0) {
+      chkAll.checked = false; chkAll.indeterminate = false;
+    } else if (selectedIds.size === allRows.length) {
+      chkAll.checked = true;  chkAll.indeterminate = false;
+    } else {
+      chkAll.checked = false; chkAll.indeterminate = true;
+    }
+  }
+
+  function updateSelBar() {
+    const bar   = document.getElementById('selBar');
+    const count = selectedIds.size;
+
+    if (count === 0) { bar.classList.remove('visible'); return; }
+
+    bar.classList.add('visible');
+    document.getElementById('selCount').textContent =
+      count === 1 ? '1 movimiento seleccionado' : `${count} movimientos seleccionados`;
+
+    // Editar solo disponible con exactamente 1 seleccionado
+    document.getElementById('editBtn').style.display = count === 1 ? '' : 'none';
+  }
+
+  /* ─── Delete selected ────────────────────────────────────────── */
+  function deleteSelected() {
+    if (selectedIds.size === 0) return;
+    allRows = allRows.filter(r => !selectedIds.has(r._id));
+    selectedIds.clear();
+    renderTable();
+  }
+
+  /* ─── Edit modal ─────────────────────────────────────────────── */
+  function editSelected() {
+    if (selectedIds.size !== 1) return;
+    const id  = [...selectedIds][0];
+    const row = allRows.find(r => r._id === id);
+    if (!row) return;
+
+    document.getElementById('editId').value    = id;
+    document.getElementById('editFecha').value = row.fecha;
+    document.getElementById('editDesc').value  = row.descripcion;
+    document.getElementById('editCat').value   = row.categoria;
+    document.getElementById('editBanco').value = row.banco;
+    document.getElementById('editMonto').value = row.monto;
+
+    document.getElementById('editModal').classList.add('open');
+    document.getElementById('editFecha').focus();
+  }
+
+  function closeEditModal() {
+    document.getElementById('editModal').classList.remove('open');
+  }
+
+  function saveEdit() {
+    const id  = parseInt(document.getElementById('editId').value);
+    const row = allRows.find(r => r._id === id);
+    if (!row) return;
+
+    row.fecha       = document.getElementById('editFecha').value.trim();
+    row.descripcion = document.getElementById('editDesc').value.trim();
+    row.categoria   = document.getElementById('editCat').value.trim();
+    row.banco       = document.getElementById('editBanco').value.trim();
+    row.monto       = document.getElementById('editMonto').value.trim();
+
+    selectedIds.clear();
+    closeEditModal();
+    renderTable();
+  }
+
+  // Cerrar modal con Escape
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') closeEditModal();
+    if (e.key === 'Enter' && document.getElementById('editModal').classList.contains('open')) saveEdit();
+  });
+
+  /* ─── Date sort helper (MM/DD/YYYY → número comparable) ─────── */
+  function dateVal(str) {
+    const p = str.split('/');
+    if (p.length !== 3) return 0;
+    return parseInt(p[2]) * 10000 + parseInt(p[0]) * 100 + parseInt(p[1]);
+  }
+
+  /* ─── Render table ───────────────────────────────────────────── */
+  function renderTable() {
+    const area     = document.getElementById('tableArea');
+    const statsBar = document.getElementById('statsBar');
+    const clearBtn = document.getElementById('clearBtn');
+
+    if (allRows.length === 0) {
+      area.innerHTML = `
+        <div class="empty">
+          <svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+            <rect x="2" y="5" width="20" height="14" rx="2"/>
+            <path d="M2 10h20M8 14h2M14 14h2"/>
+          </svg>
+          <h3>No hay movimientos todavía</h3>
+          <p>Importa un archivo CSV para comenzar a ver los datos</p>
+        </div>`;
+      statsBar.innerHTML = '<span>Sin datos</span>';
+      clearBtn.style.display = 'none';
+      updateSelBar();
+      return;
+    }
+
+    // Stats
+    let cred = 0, deb = 0;
+    allRows.forEach(r => {
+      const n = parseFloat(r.monto);
+      if (!isNaN(n)) { if (n >= 0) cred += n; else deb += n; }
+    });
+
+    const fmt2 = n =>
+      '$' + Math.abs(n).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    const neto = cred + deb;
+
+    statsBar.innerHTML = `
+      <span>${allRows.length} movimientos</span>
+      <span>Ingresos: <span class="val pos">+${fmt2(cred)}</span></span>
+      <span>Gastos: <span class="val neg">-${fmt2(deb)}</span></span>
+      <span>Neto: <span class="val ${neto >= 0 ? 'pos' : 'neg'}">${neto >= 0 ? '+' : '-'}${fmt2(neto)}</span></span>
+    `;
+    clearBtn.style.display = '';
+
+    const sorted = [...allRows].sort((a, b) => dateVal(b.fecha) - dateVal(a.fecha));
+
+    // Saldo acumulado: sumar de más antigua a más reciente, luego mostrar en orden inverso
+    const byAsc = [...allRows].sort((a, b) => dateVal(a.fecha) - dateVal(b.fecha));
+    let running = 0;
+    const balMap = new Map();
+    byAsc.forEach(r => {
+      const n = parseFloat(r.monto);
+      if (!isNaN(n)) running += n;
+      balMap.set(r._id, isNaN(parseFloat(r.monto)) ? null : running);
+    });
+
+    const tbody = sorted.map(r => {
+      const sel = selectedIds.has(r._id);
+      return `
+        <tr data-id="${r._id}"${sel ? ' class="selected"' : ''}>
+          <td class="td-cb">
+            <input type="checkbox" onchange="toggleSelect(${r._id})"${sel ? ' checked' : ''}>
+          </td>
+          <td class="td-fecha">${esc(r.fecha)}</td>
+          <td class="td-desc"><span data-tip="${esc(r.descripcion)}">${esc(r.descripcion)}</span></td>
+          <td>${esc(r.categoria)}</td>
+          <td><span class="badge ${bankClass(r.banco)}">${esc(r.banco)}</span></td>
+          <td>${fmtMonto(r.monto)}</td>
+          <td>${fmtSaldo(balMap.get(r._id))}</td>
+        </tr>`;
+    }).join('');
+
+    area.innerHTML = `
+      <div class="tbl-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th class="th-cb">
+                <input type="checkbox" id="chkAll" onchange="toggleSelectAll(this)">
+              </th>
+              <th>Fecha</th>
+              <th>Descripción</th>
+              <th>Categoría</th>
+              <th>Banco</th>
+              <th>Monto</th>
+              <th>Saldo</th>
+            </tr>
+          </thead>
+          <tbody>${tbody}</tbody>
+        </table>
+      </div>`;
+
+    syncSelectAll();
+    updateSelBar();
+  }
+
+  /* ─── Clear all ──────────────────────────────────────────────── */
+  function clearAll() {
+    allRows = [];
+    selectedIds.clear();
+    renderTable();
+  }
+
+  /* ─── Load file ──────────────────────────────────────────────── */
+  function loadFile(file) {
+    if (!/\.csv$/i.test(file.name)) return;
+    const reader = new FileReader();
+    reader.onload = ev => {
+      allRows.push(...processFile(ev.target.result, file.name));
+      renderTable();
+    };
+    reader.readAsText(file);
+  }
+
+  /* ─── File input & drag-drop ─────────────────────────────────── */
+  document.getElementById('fileInput').addEventListener('change', e => {
+    Array.from(e.target.files).forEach(loadFile);
+    e.target.value = '';
+  });
+
+  const dropZone = document.getElementById('dropZone');
+  dropZone.addEventListener('dragover',  e => { e.preventDefault(); dropZone.classList.add('over'); });
+  dropZone.addEventListener('dragleave', ()  => dropZone.classList.remove('over'));
+  dropZone.addEventListener('drop', e => {
+    e.preventDefault();
+    dropZone.classList.remove('over');
+    Array.from(e.dataTransfer.files).forEach(loadFile);
+  });
+  dropZone.addEventListener('click', e => {
+    if (e.target.tagName !== 'BUTTON') document.getElementById('fileInput').click();
+  });
+
+  /* ─── Tooltip flotante ───────────────────────────────────────── */
+  const tip = document.getElementById('tip');
+
+  document.addEventListener('mouseover', e => {
+    const span = e.target.closest('[data-tip]');
+    if (!span) return;
+    tip.textContent = span.dataset.tip;
+    tip.classList.add('show');
+  });
+
+  document.addEventListener('mouseout', e => {
+    if (e.target.closest('[data-tip]')) tip.classList.remove('show');
+  });
+
+  document.addEventListener('mousemove', e => {
+    if (!tip.classList.contains('show')) return;
+    const gap = 14;
+    let x = e.clientX + gap;
+    let y = e.clientY + gap;
+    // reposicionar si se sale del viewport
+    const tw = tip.offsetWidth, th = tip.offsetHeight;
+    if (x + tw > window.innerWidth  - 8) x = e.clientX - tw - gap;
+    if (y + th > window.innerHeight - 8) y = e.clientY - th - gap;
+    tip.style.left = x + 'px';
+    tip.style.top  = y + 'px';
+  });
+</script>
+</body>
+</html>
