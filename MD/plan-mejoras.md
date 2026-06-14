@@ -14,7 +14,7 @@ Actualizar el estado de cada tarea a medida que se complete.
 |---|--------|--------|---------|
 | 1 | Gráfico de categorías (donut interactivo) | ✅ Completado | V FSA 0019 |
 | 2 | Presupuesto por categoría | ✅ Completado | V FSA 0019 |
-| 3 | Notificaciones inteligentes | ⏳ Pendiente | — |
+| 3 | Notificaciones inteligentes | ✅ Completado | V FSA 0020 |
 | 4 | Importar CSV/Excel de bancos | ⏳ Pendiente | — |
 | 5 | Metas de ahorro | ⏳ Pendiente | — |
 | 6 | Deudas y préstamos | ⏳ Pendiente | — |
@@ -128,10 +128,10 @@ El usuario define un límite mensual de gasto por categoría. En Reportes aparec
 ---
 
 ### MEJORA 3 — Notificaciones inteligentes
-**Estado:** ⏳ Pendiente
+**Estado:** ✅ Completado
 **Complejidad:** Baja
 **Estimación:** 1 sesión
-**Versión completada:** —
+**Versión completada:** V FSA 0020 (2026-06-14)
 **Dependencias:** Mejora 2 (presupuesto por categoría) para las alertas de límite
 
 #### Qué hace
