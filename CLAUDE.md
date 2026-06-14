@@ -147,6 +147,61 @@ Ejecutar `/foresee-commit` → ejecutar `/foresee-mejora-done`
 
 ---
 
+## 🗺️ Arquitectura de la app
+
+### Secciones (líneas ~4321–4853 del HTML)
+
+| Sección | ID en HTML | data-section |
+|---------|-----------|--------------|
+| Registros | `section-registros` | `registros` |
+| Proyección | `section-proyeccion` | `proyeccion` |
+| Gastos Recurrentes | `section-recurrentes` | `recurrentes` |
+| Gastos Comunes | `section-comunes` | `gastos-comunes` |
+| Tarjetas / Préstamos | `section-tarjetas` | `tarjetas` |
+| Saldos | `section-saldos` | `saldos` |
+| Reportes | `section-reportes` | `reportes` |
+| Presupuesto | `section-presupuesto` | `presupuesto` |
+| Configuración | `section-configuracion` | `configuracion` |
+| Voz | `section-voz` | `voz` |
+
+### Estado global `appState` (línea 5682)
+
+Objeto central que contiene todo el estado de la app en memoria:
+
+| Campo | Tipo | Descripción |
+|-------|------|-------------|
+| `transactions` | `[]` | Todas las transacciones del usuario |
+| `projections` | `[]` | Entradas de proyección financiera |
+| `recurringExpenses` | `[]` | Gastos recurrentes configurados |
+| `creditCards` | `[]` | Tarjetas de crédito y préstamos |
+| `gastosComunes` | `{ people[], items[] }` | Gastos comunes: personas e ítems |
+| `categories` | `[]` | Categorías personalizadas del usuario |
+| `banks` | `[]` | Bancos configurados por el usuario |
+| `descriptions` | `[]` | Descripciones guardadas (autocomplete) |
+| `categoryBudgets` | `{}` | Límites de presupuesto por categoría |
+| `openingBalance` | `number` | Saldo inicial de apertura |
+| `userAlias` | `string` | Nombre visible del usuario |
+| `currency` | `string` | Divisa activa (ej: `'USD'`) |
+| `notificationsEnabled` | `boolean` | Notificaciones del navegador activas |
+| `budgetAlertsShown` | `{}` | Control de deduplicación de alertas |
+| `lastMonthProcessed` | `string\|null` | Control del cambio de mes automático |
+| `filterMonth` | `string` | Mes activo en filtros |
+| `filterBank` | `string` | Banco activo en filtros |
+| `filterCategory` | `string` | Categoría activa en filtros |
+| `currentTab` | `string\|null` | Sección visible actualmente |
+| `currentUser` | `object\|null` | Usuario autenticado de Firebase |
+
+### Estructura del archivo index.html
+
+| Zona | Líneas aproximadas | Contenido |
+|------|--------------------|-----------|
+| `<head>` y CDN | 1 – 50 | Meta tags, Firebase, Chart.js, SheetJS, jsPDF |
+| CSS | 50 – ~4300 | Todos los estilos de la app |
+| HTML | ~4300 – ~4900 | Secciones, modales, navegación |
+| JavaScript | ~4900 – 13000+ | Todo el código JS, `appState` en línea 5682 |
+
+---
+
 ## 🤖 Skills disponibles
 
 Tres skills instalados en Claude para automatizar las tareas más repetitivas del proyecto.
@@ -157,6 +212,15 @@ Los archivos fuente están en `skill\` dentro del proyecto.
 | `/foresee-find` | Antes de editar — localiza funciones, CSS, HTML o variables en las 13.000+ líneas sin leer el archivo completo |
 | `/foresee-commit` | Al terminar cualquier cambio — ejecuta el protocolo completo: backup, footer, informe, CLAUDE.md, commit y push |
 | `/foresee-mejora-done` | Al completar una mejora del plan — sincroniza el estado en CLAUDE.md y `MD/plan-mejoras.md` |
+
+### Reinstalar skills (si se pierden)
+
+Los archivos fuente están en `skill\` dentro del proyecto. Para reinstalar ejecutar en Bash:
+```bash
+cp "D:/$$$ Proyectos/0 Foresee-App/Foresee-App GitHub/skill/foresee-commit/SKILL.md" "C:/Users/Albert/.claude/skills/foresee-commit/SKILL.md"
+cp "D:/$$$ Proyectos/0 Foresee-App/Foresee-App GitHub/skill/foresee-mejora-done/SKILL.md" "C:/Users/Albert/.claude/skills/foresee-mejora-done/SKILL.md"
+cp "D:/$$$ Proyectos/0 Foresee-App/Foresee-App GitHub/skill/foresee-find/SKILL.md" "C:/Users/Albert/.claude/skills/foresee-find/SKILL.md"
+```
 
 ---
 
