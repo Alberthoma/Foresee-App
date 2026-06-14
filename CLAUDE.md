@@ -51,11 +51,11 @@ No hay comandos de build, lint, ni tests automatizados. La verificación se hace
 
 ## Estado actual
 
-- **Versión activa:** `V FSA 0021` (2026-06-14)
-- **Próxima versión:** `V FSA 0022`
+- **Versión activa:** `V FSA 0022` (2026-06-14)
+- **Próxima versión:** `V FSA 0023`
 - **Archivo de trabajo:** `index.html` (raíz del proyecto — único archivo que se edita)
-- **Último backup:** `Backup\antes de V FSA 0021 — 2026-06-14.html`
-- **Último informe:** `Informes de actualización\V FSA 0021 — 2026-06-14.md`
+- **Último backup:** `Backup\antes de V FSA 0022 — 2026-06-14.html`
+- **Último informe:** `Informes de actualización\V FSA 0022 — 2026-06-14.md`
 
 ---
 
@@ -351,6 +351,7 @@ cp "D:/$$$ Proyectos/0 Foresee-App/Foresee-App GitHub/skill/foresee-find/SKILL.m
 | V FSA 0019 | 2026-06-14 | Donut interactivo en Reportes: click en porción/leyenda muestra detalle de transacciones por categoría |
 | V FSA 0020 | 2026-06-14 | Notificaciones inteligentes: banner proyección 15 días, notif nativa presupuesto y recurrentes a 3 días |
 | V FSA 0021 | 2026-06-14 | Mejora 4: sección Importar — CSV/Excel de bancos con preview, detección de duplicados y bulk save a Firestore |
+| V FSA 0022 | 2026-06-14 | Categoría editable en Registros (click en celda) + tooltip flotante en descripciones truncadas |
 
 ---
 
