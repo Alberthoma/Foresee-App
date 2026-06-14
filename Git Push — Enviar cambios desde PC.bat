@@ -1,7 +1,8 @@
 @echo off
+chcp 65001 >nul
 setlocal EnableExtensions EnableDelayedExpansion
 
-title Git Push — Enviar cambios desde PC
+title Git Push - Enviar cambios desde PC
 
 REM Mensaje de commit por parametro (opcional)
 set "COMMIT_MSG=%~1"
