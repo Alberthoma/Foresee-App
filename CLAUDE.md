@@ -51,11 +51,11 @@ No hay comandos de build, lint, ni tests automatizados. La verificación se hace
 
 ## Estado actual
 
-- **Versión activa:** `V FSA 0025` (2026-06-14)
-- **Próxima versión:** `V FSA 0026`
+- **Versión activa:** `V FSA 0026` (2026-06-14)
+- **Próxima versión:** `V FSA 0027`
 - **Archivo de trabajo:** `index.html` (raíz del proyecto — único archivo que se edita)
-- **Último backup:** `Backup\antes de V FSA 0025 — 2026-06-14.html`
-- **Último informe:** `Informes de actualización\V FSA 0025 — 2026-06-14.md`
+- **Último backup:** `Backup\antes de V FSA 0026 — 2026-06-14.html`
+- **Último informe:** `Informes de actualización\V FSA 0026 — 2026-06-14.md`
 
 ---
 
@@ -355,6 +355,7 @@ cp "D:/$$$ Proyectos/0 Foresee-App/Foresee-App GitHub/skill/foresee-find/SKILL.m
 | V FSA 0023 | 2026-06-14 | UX Importar: botón "Guardar en Registros", texto explicativo y navegación automática post-import |
 | V FSA 0024 | 2026-06-14 | Duplicados estrictos en Importar (desc+monto+fecha+banco), edición inline de descripción en Registros, auto-detección Zelle como transferencia |
 | V FSA 0025 | 2026-06-14 | Colores diferenciados por tipo de transferencia: naranja (interna enviada), azul (interna recibida), verde (Zelle de tercero), rojo (Zelle a tercero) |
+| V FSA 0026 | 2026-06-14 | Auto-detección de transferencias propias por número de referencia compartido en descripción (misma fecha+monto+distinto banco) |
 
 ---
 
