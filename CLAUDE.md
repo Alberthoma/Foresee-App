@@ -51,11 +51,11 @@ No hay comandos de build, lint, ni tests automatizados. La verificación se hace
 
 ## Estado actual
 
-- **Versión activa:** `V FSA 0027` (2026-06-14)
-- **Próxima versión:** `V FSA 0028`
+- **Versión activa:** `V FSA 0028` (2026-06-14)
+- **Próxima versión:** `V FSA 0029`
 - **Archivo de trabajo:** `index.html` (raíz del proyecto — único archivo que se edita)
-- **Último backup:** `Backup\antes de V FSA 0027 — 2026-06-14.html`
-- **Último informe:** `Informes de actualización\V FSA 0027 — 2026-06-14.md`
+- **Último backup:** `Backup\antes de V FSA 0028 — 2026-06-14.html`
+- **Último informe:** `Informes de actualización\V FSA 0028 — 2026-06-14.md`
 
 ---
 
@@ -357,6 +357,7 @@ cp "D:/$$$ Proyectos/0 Foresee-App/Foresee-App GitHub/skill/foresee-find/SKILL.m
 | V FSA 0025 | 2026-06-14 | Colores diferenciados por tipo de transferencia: naranja (interna enviada), azul (interna recibida), verde (Zelle de tercero), rojo (Zelle a tercero) |
 | V FSA 0026 | 2026-06-14 | Auto-detección de transferencias propias por número de referencia compartido en descripción (misma fecha+monto+distinto banco) |
 | V FSA 0027 | 2026-06-14 | Fix detección referencia: comparar últimos 5 chars (los bancos agregan prefijos distintos al número de referencia) |
+| V FSA 0028 | 2026-06-14 | Descripción en Title Case al importar desde CSV/Excel a Registros |
 
 ---
 
