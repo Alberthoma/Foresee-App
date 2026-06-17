@@ -51,11 +51,11 @@ No hay comandos de build, lint, ni tests automatizados. La verificación se hace
 
 ## Estado actual
 
-- **Versión activa:** `V FSA 0030` (2026-06-15)
-- **Próxima versión:** `V FSA 0031`
+- **Versión activa:** `V FSA 0031` (2026-06-16)
+- **Próxima versión:** `V FSA 0032`
 - **Archivo de trabajo:** `index.html` (raíz del proyecto — único archivo que se edita)
-- **Último backup:** `Backup\antes de V FSA 0030 — 2026-06-15.html`
-- **Último informe:** `Informes de actualización\V FSA 0030 — 2026-06-15.md`
+- **Último backup:** `Backup\antes de V FSA 0031 — 2026-06-16.html`
+- **Último informe:** `Informes de actualización\V FSA 0031 — 2026-06-16.md`
 
 ---
 
@@ -360,6 +360,7 @@ cp "D:/$$$ Proyectos/0 Foresee-App/Foresee-App GitHub/skill/foresee-find/SKILL.m
 | V FSA 0028 | 2026-06-14 | Descripción en Title Case al importar desde CSV/Excel a Registros |
 | V FSA 0029 | 2026-06-14 | Fix saldo: transferencias recibidas (Zelle in, par propio recv) ahora suman en lugar de restar |
 | V FSA 0030 | 2026-06-15 | Signos +/− en montos de transferencia (reemplaza ⇄), fix monthIncome excluye transferLeg, fix saldos por banco con dirección correcta |
+| V FSA 0031 | 2026-06-16 | Descripción inteligente al importar CSV: extrae nombre+código, tooltip muestra raw, duplicados detectados por código de transacción |
 
 ---
 
