@@ -51,11 +51,11 @@ No hay comandos de build, lint, ni tests automatizados. La verificación se hace
 
 ## Estado actual
 
-- **Versión activa:** `V FSA 0034` (2026-06-16)
-- **Próxima versión:** `V FSA 0035`
+- **Versión activa:** `V FSA 0035` (2026-06-17)
+- **Próxima versión:** `V FSA 0036`
 - **Archivo de trabajo:** `index.html` (raíz del proyecto — único archivo que se edita)
-- **Último backup:** `Backup\antes de V FSA 0034 — 2026-06-16.html`
-- **Último informe:** `Informes de actualización\V FSA 0034 — 2026-06-16.md`
+- **Último backup:** `Backup\antes de V FSA 0035 — 2026-06-17.html`
+- **Último informe:** `Informes de actualización\V FSA 0035 — 2026-06-17.md`
 
 ---
 
@@ -364,6 +364,7 @@ cp "D:/$$$ Proyectos/0 Foresee-App/Foresee-App GitHub/skill/foresee-find/SKILL.m
 | V FSA 0032 | 2026-06-16 | Gastos recurrentes con símbolo ®: auto-registro marca con ®+isRecurring, importar reemplaza recurrente si coincide primera palabra ±5 días |
 | V FSA 0033 | 2026-06-16 | Zelle solo transfer si par confirmado: pairZelleRows detecta ambos lados por sharesRefToken; sin par = income/expense |
 | V FSA 0034 | 2026-06-16 | Ícono ❓ para transacciones importadas sin categoría asignada (UNKNOWN_ICON SVG, buildCatDisplay tercer param isImported) |
+| V FSA 0035 | 2026-06-17 | Fixes de importación: limpieza de descripción (prefijos, códigos REF/Conf/ID mixto, fix bug "ID"=Idaho), match por palabra compartida para reemplazo de recurrentes, agrupación de pares de transferencia en Registros, fix ícono ❓ (doble encoding) + rediseño, banner informativo en gastos recurrentes |
 
 ---
 
