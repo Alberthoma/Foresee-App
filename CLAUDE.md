@@ -51,11 +51,11 @@ No hay comandos de build, lint, ni tests automatizados. La verificación se hace
 
 ## Estado actual
 
-- **Versión activa:** `V FSA 0041` (2026-06-19)
-- **Próxima versión:** `V FSA 0042`
+- **Versión activa:** `V FSA 0042` (2026-06-19)
+- **Próxima versión:** `V FSA 0043`
 - **Archivo de trabajo:** `index.html` (raíz del proyecto — único archivo que se edita)
-- **Último backup:** `Backup\antes de V FSA 0041 — 2026-06-19.html`
-- **Último informe:** `Informes de actualización\V FSA 0041 — 2026-06-19.md`
+- **Último backup:** `Backup\antes de V FSA 0042 — 2026-06-19.html`
+- **Último informe:** `Informes de actualización\V FSA 0042 — 2026-06-19.md`
 
 ---
 
@@ -373,6 +373,7 @@ cp "D:/$$$ Proyectos/0 Foresee-App/Foresee-App GitHub/skill/foresee-find/SKILL.m
 | V FSA 0039 | 2026-06-19 | OCR de foto: soporte para fecha numérica MM/DD/YYYY (Wells Fargo), bloques "En proceso" usan fecha de hoy, líneas de resumen diario ignoradas, inferencia de signo por palabra clave cuando el monto no trae +/- explícito |
 | V FSA 0040 | 2026-06-19 | OCR de foto: stripDividerLines elimina por completo filas "Fecha de registro"/"Saldo diario final" antes de reconstruir bloques, soporte multi-monto por línea, descarte de bloques sin descripción, modo debug opcional (window.FORESEE_OCR_DEBUG) |
 | V FSA 0041 | 2026-06-19 | Fix regresión OCR (diagnosticado con log real): ícono de check leído como "@" bloqueaba la detección de fecha — se limpia ese prefijo antes de matchear; respaldo de monto dentro de la descripción si no se clasificó del lado derecho |
+| V FSA 0042 | 2026-06-19 | Fix OCR_PENDING_LABEL_RE: la etiqueta "Pendiente(s)" no coincidía con el patrón exacto "pendiente" — ahora solo exige que la línea empiece con la palabra clave |
 
 ---
 
