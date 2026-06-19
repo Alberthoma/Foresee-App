@@ -51,11 +51,11 @@ No hay comandos de build, lint, ni tests automatizados. La verificación se hace
 
 ## Estado actual
 
-- **Versión activa:** `V FSA 0036` (2026-06-17)
-- **Próxima versión:** `V FSA 0037`
+- **Versión activa:** `V FSA 0037` (2026-06-17)
+- **Próxima versión:** `V FSA 0038`
 - **Archivo de trabajo:** `index.html` (raíz del proyecto — único archivo que se edita)
-- **Último backup:** `Backup\antes de V FSA 0036 — 2026-06-17.html`
-- **Último informe:** `Informes de actualización\V FSA 0036 — 2026-06-17.md`
+- **Último backup:** `Backup\antes de V FSA 0037 — 2026-06-17.html`
+- **Último informe:** `Informes de actualización\V FSA 0037 — 2026-06-17.md`
 
 ---
 
@@ -368,6 +368,7 @@ cp "D:/$$$ Proyectos/0 Foresee-App/Foresee-App GitHub/skill/foresee-find/SKILL.m
 | V FSA 0034 | 2026-06-16 | Ícono ❓ para transacciones importadas sin categoría asignada (UNKNOWN_ICON SVG, buildCatDisplay tercer param isImported) |
 | V FSA 0035 | 2026-06-17 | Fixes de importación: limpieza de descripción (prefijos, códigos REF/Conf/ID mixto, fix bug "ID"=Idaho), match por palabra compartida para reemplazo de recurrentes, agrupación de pares de transferencia en Registros, fix ícono ❓ (doble encoding) + rediseño, banner informativo en gastos recurrentes |
 | V FSA 0036 | 2026-06-17 | Importar transacciones desde foto (OCR client-side con Tesseract.js, lazy-load): clustering de palabras por bounding boxes, reconstrucción de bloques fecha+descripción+monto, filas needsReview con monto editable, reutiliza el pipeline CSV existente sin tocarlo |
+| V FSA 0037 | 2026-06-17 | Detección de duplicados ampliada (fecha+monto+palabra compartida vía sharesDescriptionWord) en isDup/detectImportDuplicates al importar, y nuevo badge ⚠️ en Registros (findSuspectDuplicateIds) para identificar duplicados ya guardados sin borrado automático |
 
 ---
 
