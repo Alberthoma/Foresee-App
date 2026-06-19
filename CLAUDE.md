@@ -51,11 +51,11 @@ No hay comandos de build, lint, ni tests automatizados. La verificación se hace
 
 ## Estado actual
 
-- **Versión activa:** `V FSA 0038` (2026-06-17)
-- **Próxima versión:** `V FSA 0039`
+- **Versión activa:** `V FSA 0039` (2026-06-19)
+- **Próxima versión:** `V FSA 0040`
 - **Archivo de trabajo:** `index.html` (raíz del proyecto — único archivo que se edita)
-- **Último backup:** `Backup\antes de V FSA 0038 — 2026-06-17.html`
-- **Último informe:** `Informes de actualización\V FSA 0038 — 2026-06-17.md`
+- **Último backup:** `Backup\antes de V FSA 0039 — 2026-06-19.html`
+- **Último informe:** `Informes de actualización\V FSA 0039 — 2026-06-19.md`
 
 ---
 
@@ -370,6 +370,7 @@ cp "D:/$$$ Proyectos/0 Foresee-App/Foresee-App GitHub/skill/foresee-find/SKILL.m
 | V FSA 0036 | 2026-06-17 | Importar transacciones desde foto (OCR client-side con Tesseract.js, lazy-load): clustering de palabras por bounding boxes, reconstrucción de bloques fecha+descripción+monto, filas needsReview con monto editable, reutiliza el pipeline CSV existente sin tocarlo |
 | V FSA 0037 | 2026-06-17 | Detección de duplicados ampliada (fecha+monto+palabra compartida vía sharesDescriptionWord) en isDup/detectImportDuplicates al importar, y nuevo badge ⚠️ en Registros (findSuspectDuplicateIds) para identificar duplicados ya guardados sin borrado automático |
 | V FSA 0038 | 2026-06-17 | Al reemplazar un gasto recurrente con la transacción real importada (®), ahora se conserva la categoría del recurrente reemplazado |
+| V FSA 0039 | 2026-06-19 | OCR de foto: soporte para fecha numérica MM/DD/YYYY (Wells Fargo), bloques "En proceso" usan fecha de hoy, líneas de resumen diario ignoradas, inferencia de signo por palabra clave cuando el monto no trae +/- explícito |
 
 ---
 
