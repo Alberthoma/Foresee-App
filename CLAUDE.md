@@ -51,11 +51,11 @@ No hay comandos de build, lint, ni tests automatizados. La verificación se hace
 
 ## Estado actual
 
-- **Versión activa:** `V FSA 0044` (2026-06-19)
-- **Próxima versión:** `V FSA 0045`
+- **Versión activa:** `V FSA 0045` (2026-06-19)
+- **Próxima versión:** `V FSA 0046`
 - **Archivo de trabajo:** `index.html` (raíz del proyecto — único archivo que se edita)
-- **Último backup:** `Backup\antes de V FSA 0044 — 2026-06-19.html`
-- **Último informe:** `Informes de actualización\V FSA 0044 — 2026-06-19.md`
+- **Último backup:** `Backup\antes de V FSA 0045 — 2026-06-19.html`
+- **Último informe:** `Informes de actualización\V FSA 0045 — 2026-06-19.md`
 
 ---
 
@@ -376,6 +376,7 @@ cp "D:/$$$ Proyectos/0 Foresee-App/Foresee-App GitHub/skill/foresee-find/SKILL.m
 | V FSA 0042 | 2026-06-19 | Fix OCR_PENDING_LABEL_RE: la etiqueta "Pendiente(s)" no coincidía con el patrón exacto "pendiente" — ahora solo exige que la línea empiece con la palabra clave |
 | V FSA 0043 | 2026-06-19 | Fix duplicados falsos entre bancos distintos: el criterio "fecha+monto+palabra compartida" (V FSA 0037) ahora exige también mismo banco — dos lados de una transferencia real entre bancos no son duplicados |
 | V FSA 0044 | 2026-06-19 | detectBankImport ahora compara contra appState.banks dinámicamente (+ abreviaciones boa/bofa/wf); si no detecta ningún banco configurado, aborta el archivo con mensaje pidiendo renombrarlo en vez de adivinar |
+| V FSA 0045 | 2026-06-19 | Fix gastos recurrentes duplicados: cooldown de 60s en sessionStorage para tryProcessRecurringExpenses, evita que parpadeos de auth/Firestore (reset de recurringProcessed) disparen reprocesos en sucesión rápida |
 
 ---
 
