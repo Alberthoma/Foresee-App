@@ -51,11 +51,11 @@ No hay comandos de build, lint, ni tests automatizados. La verificación se hace
 
 ## Estado actual
 
-- **Versión activa:** `V FSA 0035` (2026-06-17)
-- **Próxima versión:** `V FSA 0036`
+- **Versión activa:** `V FSA 0036` (2026-06-17)
+- **Próxima versión:** `V FSA 0037`
 - **Archivo de trabajo:** `index.html` (raíz del proyecto — único archivo que se edita)
-- **Último backup:** `Backup\antes de V FSA 0035 — 2026-06-17.html`
-- **Último informe:** `Informes de actualización\V FSA 0035 — 2026-06-17.md`
+- **Último backup:** `Backup\antes de V FSA 0036 — 2026-06-17.html`
+- **Último informe:** `Informes de actualización\V FSA 0036 — 2026-06-17.md`
 
 ---
 
@@ -222,6 +222,8 @@ Ejecutar `/foresee-commit` → ejecutar `/foresee-mejora-done`
 
 ## 🗺️ Arquitectura de la app
 
+> 📥 **Pipeline de importación CSV/Excel** (función por función, orden de ejecución, shape de datos, lecciones aprendidas): ver [`MD/Pipeline de Importación CSV — Referencia.md`](MD/Pipeline%20de%20Importaci%C3%B3n%20CSV%20%E2%80%94%20Referencia.md). Leer antes de modificar la sección Importar o de extenderla con una nueva fuente de datos (ej. OCR desde foto).
+
 ### Secciones (líneas ~4321–4853 del HTML)
 
 | Sección | ID en HTML | data-section |
@@ -365,6 +367,7 @@ cp "D:/$$$ Proyectos/0 Foresee-App/Foresee-App GitHub/skill/foresee-find/SKILL.m
 | V FSA 0033 | 2026-06-16 | Zelle solo transfer si par confirmado: pairZelleRows detecta ambos lados por sharesRefToken; sin par = income/expense |
 | V FSA 0034 | 2026-06-16 | Ícono ❓ para transacciones importadas sin categoría asignada (UNKNOWN_ICON SVG, buildCatDisplay tercer param isImported) |
 | V FSA 0035 | 2026-06-17 | Fixes de importación: limpieza de descripción (prefijos, códigos REF/Conf/ID mixto, fix bug "ID"=Idaho), match por palabra compartida para reemplazo de recurrentes, agrupación de pares de transferencia en Registros, fix ícono ❓ (doble encoding) + rediseño, banner informativo en gastos recurrentes |
+| V FSA 0036 | 2026-06-17 | Importar transacciones desde foto (OCR client-side con Tesseract.js, lazy-load): clustering de palabras por bounding boxes, reconstrucción de bloques fecha+descripción+monto, filas needsReview con monto editable, reutiliza el pipeline CSV existente sin tocarlo |
 
 ---
 
