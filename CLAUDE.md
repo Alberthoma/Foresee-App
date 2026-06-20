@@ -51,11 +51,11 @@ No hay comandos de build, lint, ni tests automatizados. La verificación se hace
 
 ## Estado actual
 
-- **Versión activa:** `V FSA 0046` (2026-06-19)
-- **Próxima versión:** `V FSA 0047`
+- **Versión activa:** `V FSA 0047` (2026-06-20)
+- **Próxima versión:** `V FSA 0048`
 - **Archivo de trabajo:** `index.html` (raíz del proyecto — único archivo que se edita)
-- **Último backup:** `Backup\antes de V FSA 0046 — 2026-06-19.html`
-- **Último informe:** `Informes de actualización\V FSA 0046 — 2026-06-19.md`
+- **Último backup:** `Backup\antes de V FSA 0047 — 2026-06-20.html`
+- **Último informe:** `Informes de actualización\V FSA 0047 — 2026-06-20.md`
 
 ---
 
@@ -378,6 +378,7 @@ cp "D:/$$$ Proyectos/0 Foresee-App/Foresee-App GitHub/skill/foresee-find/SKILL.m
 | V FSA 0044 | 2026-06-19 | detectBankImport ahora compara contra appState.banks dinámicamente (+ abreviaciones boa/bofa/wf); si no detecta ningún banco configurado, aborta el archivo con mensaje pidiendo renombrarlo en vez de adivinar |
 | V FSA 0045 | 2026-06-19 | Fix gastos recurrentes duplicados: cooldown de 60s en sessionStorage para tryProcessRecurringExpenses, evita que parpadeos de auth/Firestore (reset de recurringProcessed) disparen reprocesos en sucesión rápida |
 | V FSA 0046 | 2026-06-19 | Gastos recurrentes compartidos: campo opcional "Monto total cobrado" en el formulario — el auto-registro postea ese monto en Registros (movimiento real del banco) mientras Proyección sigue usando el monto que paga el usuario; importación y emparejamiento de duplicados sin cambios |
+| V FSA 0047 | 2026-06-20 | Mejora 7 — Escaneo de recibos OCR: botón "Escanear recibo" en el modal de nueva transacción, extrae monto/fecha/comercio de la foto de un ticket (preprocesamiento gris+contraste, extractor propio anclado en "Total" y sufijo legal LLC/Inc/Corp), sin tocar el pipeline de Importar |
 
 ---
 
