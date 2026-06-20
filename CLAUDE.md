@@ -407,7 +407,7 @@ Plan completo con estrategia e implementación: [`MD/plan-mejoras.md`](MD/plan-m
 | 4 | Importar CSV/Excel de bancos | ✅ Completado |
 | 5 | Metas de ahorro | ⏳ Pendiente |
 | 6 | Deudas y préstamos | ⏳ Pendiente |
-| 7 | Escaneo de recibos (OCR) | ⏳ Pendiente |
+| 7 | Escaneo de recibos (OCR) | ✅ Completado |
 
 **Estados:** ⏳ Pendiente — 🔄 En progreso — ✅ Completado — ❌ Descartado
 

@@ -18,7 +18,7 @@ Actualizar el estado de cada tarea a medida que se complete.
 | 4 | Importar CSV/Excel de bancos | ✅ Completado | V FSA 0021 |
 | 5 | Metas de ahorro | ⏳ Pendiente | — |
 | 6 | Deudas y préstamos | ⏳ Pendiente | — |
-| 7 | Escaneo de recibos (OCR) | ⏳ Pendiente | — |
+| 7 | Escaneo de recibos (OCR) | ✅ Completado | V FSA 0047 |
 
 **Estados:** ⏳ Pendiente — 🔄 En progreso — ✅ Completado — ❌ Descartado
 
@@ -368,10 +368,10 @@ prestamos: [
 ---
 
 ### MEJORA 7 — Escaneo de recibos (OCR)
-**Estado:** ⏳ Pendiente
+**Estado:** ✅ Completado
 **Complejidad:** Alta
 **Estimación:** 2-3 sesiones
-**Versión completada:** —
+**Versión completada:** V FSA 0047 (2026-06-20)
 **Dependencias:** Ninguna — pero implementar al final por complejidad
 
 #### Qué hace
