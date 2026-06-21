@@ -37,7 +37,7 @@ function extractUid(docPath) {
 // Dedup por canal — cada canal se reintenta independiente si falla; un
 // canal exitoso no bloquea al otro. status:'sent' es lo único que evita
 // reenvío; status:'failed'/'pending' permite reintentar al día siguiente.
-async function runChannelWithDedup({ db, reminderKey, channelName, sendFn }) {
+async function runChannelWithDedup({ db, reminderKey, channelName, meta, sendFn }) {
   const logRef = db.collection("emailReminderLog").doc(`${reminderKey}_${channelName}`);
   const existing = await logRef.get();
   if (existing.exists && existing.data().status === "sent") {
@@ -45,7 +45,12 @@ async function runChannelWithDedup({ db, reminderKey, channelName, sendFn }) {
   }
 
   await logRef.set(
-    { ...existing.data(), channel: channelName, status: "pending", claimedAt: FieldValue.serverTimestamp() },
+    {
+      ...meta,
+      channel: channelName,
+      status: "pending",
+      claimedAt: FieldValue.serverTimestamp(),
+    },
     { merge: true },
   );
 
@@ -96,6 +101,12 @@ async function runReminderSweep() {
     }
 
     const reminderKey = `${uid}_${doc.id}_${match.dueDateISO}_${match.ahead}`;
+    const meta = {
+      uid,
+      expenseId: doc.id,
+      dueDateISO: match.dueDateISO,
+      threshold: match.ahead,
+    };
     const channelResults = {};
 
     if (wantsEmail) {
@@ -103,6 +114,7 @@ async function runReminderSweep() {
         db,
         reminderKey,
         channelName: "email",
+        meta,
         sendFn: async () => {
           if (!userEmailCache.has(uid)) {
             const userRecord = await auth.getUser(uid);
@@ -126,6 +138,7 @@ async function runReminderSweep() {
         db,
         reminderKey,
         channelName: "push",
+        meta,
         sendFn: () =>
           sendReminderPush({
             uid,
