@@ -51,11 +51,11 @@ No hay comandos de build, lint, ni tests automatizados. La verificación se hace
 
 ## Estado actual
 
-- **Versión activa:** `V FSA 0049` (2026-06-22)
-- **Próxima versión:** `V FSA 0050`
+- **Versión activa:** `V FSA 0050` (2026-06-22)
+- **Próxima versión:** `V FSA 0051`
 - **Archivo de trabajo:** `index.html` (raíz del proyecto — único archivo que se edita)
-- **Último backup:** `Backup\antes de V FSA 0049 — 2026-06-22.html`
-- **Último informe:** `Informes de actualización\V FSA 0049 — 2026-06-22.md`
+- **Último backup:** `Backup\antes de V FSA 0050 — 2026-06-22.html`
+- **Último informe:** `Informes de actualización\V FSA 0050 — 2026-06-22.md`
 
 ---
 
@@ -381,6 +381,7 @@ cp "D:/$$$ Proyectos/0 Foresee-App/Foresee-App GitHub/skill/foresee-find/SKILL.m
 | V FSA 0047 | 2026-06-20 | Mejora 7 — Escaneo de recibos OCR: botón "Escanear recibo" en el modal de nueva transacción, extrae monto/fecha/comercio de la foto de un ticket (preprocesamiento gris+contraste, extractor propio anclado en "Total" y sufijo legal LLC/Inc/Corp), sin tocar el pipeline de Importar |
 | V FSA 0048 | 2026-06-21 | Recordatorios de pago por correo (SendGrid) y push (FCM) sin necesidad de abrir la app: primer backend del proyecto (Cloud Functions v2 programadas), dedup por canal independiente, dos toggles nuevos en Configuración, Service Worker activado por primera vez |
 | V FSA 0049 | 2026-06-22 | Fix Proyección: recurrentes ya registrados dejaban de filtrarse (duplicado) por comparar fecha/descripción exacta en vez del criterio de palabra compartida ±5 días que ya usa el auto-registro; fix transferencias entre cuentas propias que se tomaban como egreso en ambas patas (tabla y export Excel) |
+| V FSA 0050 | 2026-06-22 | Proyección: checkbox "Ver también el mes siguiente" — muestra los recurrentes del próximo mes con fila divisoria, reutilizando el mismo filtro anti-duplicados de V FSA 0049 sin lógica nueva |
 
 ---
 
