@@ -66,7 +66,7 @@ self.addEventListener('push', event => {
   event.waitUntil(
     self.registration.showNotification(title, {
       body,
-      icon: 'https://res.cloudinary.com/datwdagbf/image/upload/v1756514685/proyeccion_hh3xyt.png',
+      icon: 'https://res.cloudinary.com/datwdagbf/image/upload/v1782540486/Logo_Foresee_Metal_qj9tbm.png',
       data: { url: data.url || './' },
     })
   );
