@@ -51,11 +51,11 @@ No hay comandos de build, lint, ni tests automatizados. La verificación se hace
 
 ## Estado actual
 
-- **Versión activa:** `V FSA 0053` (2026-06-27)
-- **Próxima versión:** `V FSA 0054`
+- **Versión activa:** `V FSA 0054` (2026-06-27)
+- **Próxima versión:** `V FSA 0055`
 - **Archivo de trabajo:** `index.html` (raíz del proyecto — único archivo que se edita)
-- **Último backup:** `Backup\antes de V FSA 0053 — 2026-06-27.html`
-- **Último informe:** `Informes de actualización\V FSA 0053 — 2026-06-27.md`
+- **Último backup:** `Backup\antes de V FSA 0054 — 2026-06-27.html`
+- **Último informe:** `Informes de actualización\V FSA 0054 — 2026-06-27.md`
 
 ---
 
@@ -385,6 +385,7 @@ cp "D:/$$$ Proyectos/0 Foresee-App/Foresee-App GitHub/skill/foresee-find/SKILL.m
 | V FSA 0051 | 2026-06-27 | Cambio del logo del ícono de la app móvil (manifest.json + apple-touch-icon nuevo en index.html, antes inexistente) |
 | V FSA 0052 | 2026-06-27 | Fix: faltaba actualizar el ícono del logo nuevo en sw.js (notificaciones push) — los otros dos usos restantes de la imagen vieja son íconos de UI no relacionados (pestaña Proyección, lista de íconos de categoría) |
 | V FSA 0053 | 2026-06-27 | Fix logo del ícono: la imagen original es panorámica (11359x6400, 2.5MB) — se agregó transformación de Cloudinary (escalar + e_trim + c_fill) para que quede cuadrada, sin relleno y liviana (manifest.json, apple-touch-icon, sw.js) |
+| V FSA 0054 | 2026-06-27 | Cambio de logo del ícono a pedido del usuario (Logotipo_Foresee_rp39dl.png, ya cuadrada 1220x1220 con fondo propio) — solo escalar + optimizar, sin recorte |
 
 ---
 
