@@ -2,7 +2,6 @@ const CACHE_NAME = 'foresee-cache-v2';
 
 const STATIC_ASSETS = [
   'manifest.json',
-  'numberParser.js',
 ];
 
 self.addEventListener('install', event => {
