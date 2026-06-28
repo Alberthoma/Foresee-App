@@ -51,11 +51,11 @@ No hay comandos de build, lint, ni tests automatizados. La verificación se hace
 
 ## Estado actual
 
-- **Versión activa:** `V FSA 0056` (2026-06-27)
-- **Próxima versión:** `V FSA 0057`
+- **Versión activa:** `V FSA 0057` (2026-06-27)
+- **Próxima versión:** `V FSA 0058`
 - **Archivo de trabajo:** `index.html` (raíz del proyecto — único archivo que se edita)
-- **Último backup:** `Backup\antes de V FSA 0056 — 2026-06-27.html`
-- **Último informe:** `Informes de actualización\V FSA 0056 — 2026-06-27.md`
+- **Último backup:** `Backup\antes de V FSA 0057 — 2026-06-27.html`
+- **Último informe:** `Informes de actualización\V FSA 0057 — 2026-06-27.md`
 
 ---
 
@@ -388,6 +388,7 @@ cp "D:/$$$ Proyectos/0 Foresee-App/Foresee-App GitHub/skill/foresee-find/SKILL.m
 | V FSA 0054 | 2026-06-27 | Cambio de logo del ícono a pedido del usuario (Logotipo_Foresee_rp39dl.png, ya cuadrada 1220x1220 con fondo propio) — solo escalar + optimizar, sin recorte |
 | V FSA 0055 | 2026-06-27 | Cambio de logo del ícono a una tercera variante (Logotipo_Foresee2_vqou8q.png, 1300x1300, mejor proporcionada según el usuario) |
 | V FSA 0056 | 2026-06-27 | Fixes OCR Importar (5 capturas reales): coma sin espacio en fecha, año de 2 dígitos Wells Fargo, segunda transacción mismo día sin fecha repetida (Chase desktop), reescritura parser móvil, encabezados de sección Wells Fargo; detección de banco vía texto `lines` ya validado (fix "Wells Fargo detectado como Chase"); badge de banco clicable con selector inline + ⚠️ cuando la detección fue una suposición (conecta el `<select>` huérfano desde V FSA 0021) |
+| V FSA 0057 | 2026-06-27 | Asignación masiva de banco en Importar: `<select>` real en el encabezado de la tabla (habilitado solo si todas las filas vienen de la misma captura/archivo, vía `batchId`), tras descartar dos enfoques con bugs (select anidado que se cerraba solo; apertura no confiable con focus()/click() programático). Consistencia visual con Registros: ícono "?" en Categoría sin asignar, input de Monto con clase de tema + borde editable, colores/fuente de Monto reutilizando `amount--income`/`amount--expense`, fix de alto de fila (bug de `img{display:block}` dentro de `<span>` en línea, diagnosticado con Puppeteer). Documento de referencia de Importar actualizado con el flujo completo (CSV/Excel + foto/OCR + asignación de banco) |
 
 ---
 
