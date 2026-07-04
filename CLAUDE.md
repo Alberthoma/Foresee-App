@@ -51,11 +51,11 @@ No hay comandos de build, lint, ni tests automatizados. La verificación se hace
 
 ## Estado actual
 
-- **Versión activa:** `V FSA 0059` (2026-06-27)
-- **Próxima versión:** `V FSA 0060`
+- **Versión activa:** `V FSA 0060` (2026-07-03)
+- **Próxima versión:** `V FSA 0061`
 - **Archivo de trabajo:** `index.html` (raíz del proyecto — único archivo que se edita)
-- **Último backup:** `Backup\antes de V FSA 0059 — 2026-06-27.html`
-- **Último informe:** `Informes de actualización\V FSA 0059 — 2026-06-27.md`
+- **Último backup:** `Backup\antes de V FSA 0060 — 2026-07-03.html`
+- **Último informe:** `Informes de actualización\V FSA 0060 — 2026-07-03.md`
 
 ---
 
@@ -391,6 +391,7 @@ cp "D:/$$$ Proyectos/0 Foresee-App/Foresee-App GitHub/skill/foresee-find/SKILL.m
 | V FSA 0057 | 2026-06-27 | Asignación masiva de banco en Importar: `<select>` real en el encabezado de la tabla (habilitado solo si todas las filas vienen de la misma captura/archivo, vía `batchId`), tras descartar dos enfoques con bugs (select anidado que se cerraba solo; apertura no confiable con focus()/click() programático). Consistencia visual con Registros: ícono "?" en Categoría sin asignar, input de Monto con clase de tema + borde editable, colores/fuente de Monto reutilizando `amount--income`/`amount--expense`, fix de alto de fila (bug de `img{display:block}` dentro de `<span>` en línea, diagnosticado con Puppeteer). Documento de referencia de Importar actualizado con el flujo completo (CSV/Excel + foto/OCR + asignación de banco) |
 | V FSA 0058 | 2026-06-27 | Fix alto de fila en Importar específico de móvil: la celda de Fecha no tenía `white-space: nowrap`, el guión de "YYYY-MM-DD" partía la fecha en 2 líneas en pantallas angostas — diagnosticado y verificado con Puppeteer emulando viewport de 390px |
 | V FSA 0059 | 2026-06-27 | Retoques de estilo: alineación a la derecha de montos en Presupuesto (Gastado/Disponible) y Recurrentes (Monto); inputs de Importar/Configuración/Presupuesto con borde azul + sombra interior (antes se confundían con el fondo); botones de Configuración en azul de marca con efecto hover (antes heredaban el gris del acento de la sección) |
+| V FSA 0060 | 2026-07-03 | Fix crítico: cambio automático de mes ya no borra transacciones históricas (`runMonthTransition` eliminó el borrado y el update de `openingBalance`); botón "Recuperar Datos Archivados" en Configuración restaura desde el documento de archivo en Firestore |
 
 ---
 
