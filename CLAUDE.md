@@ -51,11 +51,11 @@ No hay comandos de build, lint, ni tests automatizados. La verificación se hace
 
 ## Estado actual
 
-- **Versión activa:** `V FSA 0060` (2026-07-03)
-- **Próxima versión:** `V FSA 0061`
+- **Versión activa:** `V FSA 0061` (2026-07-04)
+- **Próxima versión:** `V FSA 0062`
 - **Archivo de trabajo:** `index.html` (raíz del proyecto — único archivo que se edita)
-- **Último backup:** `Backup\antes de V FSA 0060 — 2026-07-03.html`
-- **Último informe:** `Informes de actualización\V FSA 0060 — 2026-07-03.md`
+- **Último backup:** `Backup\antes de V FSA 0061 — 2026-07-04.html`
+- **Último informe:** `Informes de actualización\V FSA 0061 — 2026-07-04.md`
 
 ---
 
@@ -392,6 +392,7 @@ cp "D:/$$$ Proyectos/0 Foresee-App/Foresee-App GitHub/skill/foresee-find/SKILL.m
 | V FSA 0058 | 2026-06-27 | Fix alto de fila en Importar específico de móvil: la celda de Fecha no tenía `white-space: nowrap`, el guión de "YYYY-MM-DD" partía la fecha en 2 líneas en pantallas angostas — diagnosticado y verificado con Puppeteer emulando viewport de 390px |
 | V FSA 0059 | 2026-06-27 | Retoques de estilo: alineación a la derecha de montos en Presupuesto (Gastado/Disponible) y Recurrentes (Monto); inputs de Importar/Configuración/Presupuesto con borde azul + sombra interior (antes se confundían con el fondo); botones de Configuración en azul de marca con efecto hover (antes heredaban el gris del acento de la sección) |
 | V FSA 0060 | 2026-07-03 | Fix crítico: cambio automático de mes ya no borra transacciones históricas (`runMonthTransition` eliminó el borrado y el update de `openingBalance`); botón "Recuperar Datos Archivados" en Configuración restaura desde el documento de archivo en Firestore |
+| V FSA 0061 | 2026-07-04 | Fixes OCR Importar desde foto: BofA mismo día ya no toma el saldo como monto; regex `looksLikeAmountToken` acepta `+$monto` (fix crash SyntaxError); `parseOcrAmount` descarta `+` inicial; PURCHASE detectado como gasto; snapshot pre-guardado evita falso duplicado en lotes con dos transacciones idénticas |
 
 ---
 
